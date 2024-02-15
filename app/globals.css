@@ -1,0 +1,86 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes changeText {
+	0%, 25% {
+	  opacity: 1;
+	  content: "Sarah groomed their pet last month. Their pet needs a new session. Offer them a 10% discount to return back!";
+	}
+	50%, 75% {
+	  opacity: 0;
+	  content: "";
+	}
+	100% {
+	  opacity: 1;
+	  content: "Mohamed is a member for 6 months, reward him with a free 1-month membership!";
+	}
+  }
+/* styles.css */
+.fadeIn {
+	@apply opacity-0 invisible;
+	animation: fadeIn 1s ease forwards;
+  }
+
+  .fadeOut {
+	@apply opacity-100 visible;
+	animation: fadeOut 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+	to {
+	  @apply opacity-100 visible;
+	}
+  }
+
+  @keyframes fadeOut {
+	to {
+	  @apply opacity-0 invisible;
+	}
+  }
+  /* Add this to your CSS file */
+.icon-size {
+	width: 2em; /* Set the size of the icon */
+	height: 2em; /* Set the size of the icon */
+  }
+
+  .notification-box, .whatsapp-box {
+	display: flex;
+	align-items: center;
+	/* ... other styles ... */
+  }
+
+  /* Add transition for width or max-width as needed */
+  .transition-container > div {
+	transition: max-width 0.5s ease-in-out;
+  }
