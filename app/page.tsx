@@ -134,7 +134,7 @@ export default function Home() {
       {/* Feature Section */}
       <section id="features" className="py-20">
         <div className="max-w-6xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-9">
             {/* Feature 1 */}
             <div className="flex flex-col items-center text-center">
 			<Image src="/whatsapp-icon.png" alt="wa" width={100} height={100}/>
