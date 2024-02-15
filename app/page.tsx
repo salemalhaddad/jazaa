@@ -75,10 +75,10 @@ export default function Home() {
 			</a>
 
 			{/* Primary Navbar items */}
-			<div className="hidden md:flex items-center space-x-1">
-				<a href="#features" className="py-4 px-2 text-blue-700 font-semibold hover:text-blue-500 transition duration-300">Features</a>
-				<a href="#faq" className="py-4 px-2 text-blue-700 font-semibold hover:text-blue-500 transition duration-300">FAQ</a>
-				<a href="mailto:hello@jazaa.co" className="py-4 px-2 bg-blue-600 ml-5 rounded font-semibold hover:text-blue-500 transition duration-300">Contact Sales</a>
+			<div className=" flex ">
+				<a href="#features" className="py-4 px-4 text-blue-700 font-semibold hover:text-blue-500 transition duration-300">Features</a>
+				<a href="#faq" className="py-4 px-2 mr-4 text-blue-700 font-semibold hover:text-blue-500 transition duration-300">FAQ</a>
+				<a href="mailto:hello@jazaa.co" className="py-4 px-3 bg-blue-600 rounded font-semibold hover:text-blue-500 transition duration-300">Contact Sales</a>
 			</div>
             {/* Secondary Navbar items */}
             {/* <div className="hidden md:flex items-center space-x-3">
@@ -99,7 +99,7 @@ export default function Home() {
               Contact Sales
             </a>
           </div>
-		  <div className="md:w-1/2 mt-10 md:mt-0 flex flex-col items-center">
+		  <div className="md:w-1/2 md:ml-10 mt-10 md:mt-0 flex flex-col items-center">
 			{/* Notification box */}
 			<div className="flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full max-w-md">
 				<div className="flex items-center mb-2">
