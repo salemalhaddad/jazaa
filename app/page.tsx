@@ -11,6 +11,9 @@ import { FaCreditCard, FaMoneyCheckAlt } from 'react-icons/fa'; // Import releva
 import { SiVisa, SiMastercard } from 'react-icons/si'; // Icons for Visa and Mastercard
 
 export default function Home() {
+	interface NotificationMap {
+		[key: string]: JSX.Element | string;
+	}
 
 	const notifications = [
 		{ message: "Sarah groomed their pet last month. Their pet needs a new session. Would you like to offer a 10% discount for their next session?" },
@@ -34,21 +37,19 @@ export default function Home() {
 	  }, []);
 
 	  // Function to generate the WhatsApp message based on the notification
-	  const generateWhatsAppMessage = (notification) => {
-		// Define a map of notifications to WhatsApp responses
-		const notificationToWhatsAppMap = {
+	  const notificationToWhatsAppMap: NotificationMap = {
 			"Sarah groomed their pet last month. Their pet needs a new session. Would you like to offer a 10% discount for their next session?": (
 			  <>Hi Sarah 👋, we missed you! Come back for a grooming session and get a 15% discount on your next visit. You can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a>.</>
 			),
 			"Mohamed is a member for 6 months, would you like to reward him with a free month?": (
 			  <>Congratulations Mohamed 🥳 on reaching the 6-month mark with us! Enjoy a free 1-month membership as a token of our appreciation. Offer is valid for 48 hours! You can pay here: <a href="https://jazaa.co/pay/?id=234" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=234</a>.</>
 			)
-		  };
+		  }
 
 
-		// Return the corresponding WhatsApp message or a default one if the notification is not recognized
-		return notificationToWhatsAppMap[notification] || "Check out our latest offers and services!";
-	  };
+		const generateWhatsAppMessage = (notification: string) => {
+			return notificationToWhatsAppMap[notification] || "Check out our latest offers and services!";
+		};
 
 	  // State for the WhatsApp message
 	  const [whatsAppMessage, setWhatsAppMessage] = useState(generateWhatsAppMessage(currentNotification));
@@ -158,7 +159,7 @@ export default function Home() {
 			</div>
 			<div className="flex flex-col items-center text-center w-full max-w-xs mx-auto"> {/* Centering the 3rd feature */}
 				<div className="bg-white shadow-md rounded-lg p-4 w-full">
-					<h3 className="text-lg font-semibold mb-2 text-black">Today's Overview</h3>
+					<h3 className="text-lg font-semibold mb-2 text-black">{"Today's Overview"}</h3>
 					<div className="flex justify-between text-sm mb-4 ml-10 mr-10 mt-5">
 						<div>
 							<p className="font-medium text-blue-600">Offers</p>
