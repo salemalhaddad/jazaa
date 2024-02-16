@@ -19,26 +19,26 @@ export default function Home() {
 	useEffect(() => {
 		initGA(); // Initialize Google Analytics
 		logPageView(); // Log the initial page view
-
-		const trackButtonClick = () => {
-			ReactGA.event({
-			  category: 'User',
-			  action: 'Clicked Contact Sales Button'
-			});
-
-			console.log('It went!')
-			// Your existing onClick functionality
-			window.location.href = 'https://cal.com/jazaa/30min';
-		  };
 		// Add additional tracking logic as needed
 	  }, []);
 
+	  const trackButtonClick = () => {
+		ReactGA.event({
+		  category: 'User',
+		  action: 'Clicked Contact Sales Button'
+		});
+
+		console.log('It went!')
+		// Your existing onClick functionality
+		window.location.href = 'https://cal.com/jazaa/30min';
+	  };
+	  
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [alertMessage, setAlertMessage] = useState('');
 	const [successMessage, setSuccessMessage] = useState('');
 
-	const handleSubmit = (event) => {
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setAlertMessage('');
 		setSuccessMessage('');
