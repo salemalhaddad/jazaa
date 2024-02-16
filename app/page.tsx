@@ -9,8 +9,56 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { MdArrowDownward } from 'react-icons/md';
 import { FaCreditCard, FaMoneyCheckAlt } from 'react-icons/fa'; // Import relevant icons
 import { SiVisa, SiMastercard } from 'react-icons/si'; // Icons for Visa and Mastercard
+import Cal, { getCalApi } from "@calcom/embed-react";
+import ReactGA from 'react-ga';
+import { initGA, logPageView } from '@/app/analytics'; // Import the utility you created
 
 export default function Home() {
+
+
+	useEffect(() => {
+		initGA(); // Initialize Google Analytics
+		logPageView(); // Log the initial page view
+
+		const trackButtonClick = () => {
+			ReactGA.event({
+			  category: 'User',
+			  action: 'Clicked Contact Sales Button'
+			});
+
+			console.log('It went!')
+			// Your existing onClick functionality
+			window.location.href = 'https://cal.com/jazaa/30min';
+		  };
+		// Add additional tracking logic as needed
+	  }, []);
+
+	const [email, setEmail] = useState('');
+	const [phone, setPhone] = useState('');
+	const [alertMessage, setAlertMessage] = useState('');
+	const [successMessage, setSuccessMessage] = useState('');
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		setAlertMessage('');
+		setSuccessMessage('');
+
+		if (!phone) {
+		setAlertMessage('Please enter your WhatsApp number.');
+		return;
+		}
+
+		if(phone){
+			setSuccessMessage('Your phone number is receieved. We will get back to you within 48 hours.');
+		}
+
+		// Handle the form submission here, such as sending data to your server
+		console.log('Email:', email, 'Phone:', phone);
+		// Redirect or show success message
+	};
+
+
+
 	interface NotificationMap {
 		[key: string]: JSX.Element | string;
 	}
@@ -95,9 +143,35 @@ export default function Home() {
             <p className="text-xl font-light leading-relaxed md:text-2xl md:leading-relaxed">
               Jazaa helps service businesses, like gyms and spas, increase their repeat customers through powerful automation.
             </p>
-            <a href="mailto:hello@jazaa.com" className="inline-block bg-white text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
+            {/* <a href="mailto:hello@jazaa.com" className="inline-block bg-white text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
               Contact Sales
-            </a>
+            </a> */}
+			{/* <form onSubmit={handleSubmit} className="space-y-4 w-full">
+				<input
+					type="tel"
+					value={phone}
+					onChange={(e) => setPhone(e.target.value)}
+					placeholder="Enter your WhatsApp number"
+					className="rounded py-2 px-4 w-full text-gray-800 md:w-3/4"
+				/>
+				{alertMessage && (
+					<p className="text-red-500">{alertMessage}</p>
+				)}
+				{successMessage && (
+					<p className="text-green-500">{successMessage}</p>
+				)}
+				<button
+					type="submit"
+					className="bg-white text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg"
+				>
+					Get Early Access
+				</button>
+       		</form> */}
+			   <button
+					onClick={trackButtonClick} className="bg-white text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg"
+				>
+					Contact Sales
+				</button>
           </div>
 		  <div className="md:w-1/2 md:ml-10 mt-10 md:mt-0 flex flex-col items-center">
 			{/* Notification box */}
