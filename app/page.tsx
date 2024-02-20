@@ -9,30 +9,18 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { MdArrowDownward } from 'react-icons/md';
 import { FaCreditCard, FaMoneyCheckAlt } from 'react-icons/fa'; // Import relevant icons
 import { SiVisa, SiMastercard } from 'react-icons/si'; // Icons for Visa and Mastercard
-import Cal, { getCalApi } from "@calcom/embed-react";
-import ReactGA from 'react-ga';
-import { initGA, logPageView } from '@/app/analytics'; // Import the utility you created
+
 
 export default function Home() {
 
-
-	useEffect(() => {
-		initGA(); // Initialize Google Analytics
-		logPageView(); // Log the initial page view
-		// Add additional tracking logic as needed
-	  }, []);
-
+	  // Function to track button click event
 	  const trackButtonClick = () => {
-		ReactGA.event({
-		  category: 'User',
-		  action: 'Clicked Contact Sales Button'
-		});
-
-		console.log('It went!')
-		// Your existing onClick functionality
-		window.location.href = 'https://cal.com/jazaa/30min';
+		sendGAEvent({
+        'event': 'Sales Button Click' })
+		  console.log('It went!');
+		  window.location.href = 'https://cal.com/jazaa/30min';
 	  };
-	  
+
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [alertMessage, setAlertMessage] = useState('');
