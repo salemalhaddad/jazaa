@@ -9,7 +9,8 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { MdArrowDownward } from 'react-icons/md';
 import { FaCreditCard, FaMoneyCheckAlt } from 'react-icons/fa'; // Import relevant icons
 import { SiVisa, SiMastercard } from 'react-icons/si'; // Icons for Visa and Mastercard
-
+import Link from 'next/link'
+import Login from './login/page'
 
 export default function Home() {
 
@@ -102,27 +103,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 	  {/* Navigation Bar*/}
-	  <nav className="bg-white shadow-lg">
-	  <div className="max-w-6xl mx-auto px-4">
-    	<div className="flex justify-between items-center">
-			{/* Website Logo */}
-			<a href="#" className="flex items-center py-4">
-				<Image src="/logo.png" alt="Jazaa Logo" width={150} height={150}  />
-			</a>
 
-			{/* Primary Navbar items */}
-			<div className=" flex ">
-				<a href="#features" className="py-4 px-4 text-blue-700 font-semibold hover:text-blue-500 transition duration-300">Features</a>
-				<a href="#faq" className="py-4 px-2 mr-4 text-blue-700 font-semibold hover:text-blue-500 transition duration-300">FAQ</a>
-				<a href="mailto:hello@jazaa.co" className="py-4 px-3 bg-blue-600 rounded font-semibold hover:text-blue-500 transition duration-300">Contact Sales</a>
-			</div>
-            {/* Secondary Navbar items */}
-            {/* <div className="hidden md:flex items-center space-x-3">
-              <a href="#contact" className="py-2 px-2 font-medium text-white bg-blue-600 rounded hover:bg-blue-500 transition duration-300">Get Started</a>
-            </div> */}
-          </div>
-        </div>
-      </nav>
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-500 to-blue-800 text-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6 md:px-12 py-20 md:py-32">
@@ -159,6 +140,11 @@ export default function Home() {
 					onClick={trackButtonClick} className="bg-white text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg"
 				>
 					Contact Sales
+				</button>
+				<button
+					className="bg-white text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg"
+				>
+					<Link href="/login">Login</Link>
 				</button>
           </div>
 		  <div className="md:w-1/2 md:ml-10 mt-10 md:mt-0 flex flex-col items-center">
