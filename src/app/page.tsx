@@ -5,7 +5,7 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { MdKeyboardArrowDown, MdNotifications, MdChat } from 'react-icons/md'; // Added MdChat for WhatsApp icon
 import { FaWhatsapp, FaRobot } from 'react-icons/fa'
-import { MdArrowDownward, MdArrowRight, MdPhone } from 'react-icons/md';
+import { MdArrowDownward, MdArrowRight, MdMessage, MdDiscount, MdPhone } from 'react-icons/md';
 import { FaCreditCard, FaMoneyCheckAlt } from 'react-icons/fa'; // Import relevant icons
 import { SiVisa, SiMastercard } from 'react-icons/si'; // Icons for Visa and Mastercard
 import Link from 'next/link'
@@ -87,7 +87,55 @@ export default function Home() {
 	//   useEffect(() => {
 	// 	setWhatsAppMessage(generateWhatsAppMessage(currentNotification));
 	//   }, [currentNotification]);
+	interface NotificationMap {
+			[key: string]: JSX.Element | string;
+		}
 
+	const notifications = [
+		{ message: "1 month" },
+		{ message: "1 week" },
+		{ message: "1 day" }
+		];
+
+		const [currentNotification, setCurrentNotification] = useState(notifications[0].message);
+		const [notificationIndex, setNotificationIndex] = useState(0);
+
+		useEffect(() => {
+		// Cycle through notifications every 4 seconds
+		const intervalId = setInterval(() => {
+			setNotificationIndex((i) => {
+			const nextIndex = (i + 1) % notifications.length;
+			setCurrentNotification(notifications[nextIndex].message);
+			return nextIndex;
+			});
+		}, 4000);
+
+		return () => clearInterval(intervalId);
+		}, []);
+
+		const notificationToRewardMap: NotificationMap = {
+			"1 month": (
+				<>15% discount</>
+			),
+			"1 week": (
+				<>Gift cards</>
+			),
+			"1 day": (
+				<>Free products</>
+			)
+			}
+
+
+		const generateReward = (notification: string) => {
+			return notificationToRewardMap[notification];
+		};
+
+		const [reward, setReward] = useState(generateReward(currentNotification));
+
+		// Update the WhatsApp message whenever the notification changes
+		useEffect(() => {
+		setReward(generateReward(currentNotification));
+		}, [currentNotification]);
   return (
     <div>
       <Head>
@@ -148,19 +196,25 @@ export default function Home() {
 		<div className="md:ml-10 md:mt-0 md:flex md:flex-row grid grid-cols-1 md:grid-cols-3 items-center m-10 ">
 			<div className="flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
 					<div className="flex items-center mb-2">
-						<MdNotifications className="text-4xl text-blue-500 flex-shrink-0" />
-						<h3 className="text-lg font-semibold mb-2 ml-4">A suggested offer reaches you</h3>
+						<MdDiscount className="text-4xl text-blue-500 flex-shrink-0" />
+						<h3 className="text-lg font-semibold mb-2 ml-4">Choose your customer reward preferences</h3>
 					</div>
-					<p className="flex-grow">Sarah groomed their pet last month. Their pet needs a new session. Would you like to offer a 10% discount for their next session?</p>
+					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
+						<p className="flex-grow mb-2">Specify <b>when</b> and <b>how</b> to reward your customers:</p>
+						{/* Dynamic Sentence */}
+						<div className="text-center bg-blue-60 p-4 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
+							<p className="text-lg font-semibold">I want to reach out to my customer <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> after their last visit with <span className="bg-white text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">{reward}</span>.</p>
+						</div>
+					</div>
 					{/* Buttons */}
-					<div className="flex justify-center space-x-6 mt-5">
+					{/* <div className="flex justify-center space-x-6 mt-5">
 						<button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">
 						Confirm
 						</button>
 						<button className="bg-white text-blue-600 mr-10 px-4 py-2 rounded hover:bg-red-600 transition duration-300">
 						Change Offer
 						</button>
-					</div>
+					</div> */}
 				</div>
 				{/* Arrow icon */}
 				<MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90  md:rotate-0 text-5xl mx-auto" />
@@ -170,16 +224,20 @@ export default function Home() {
 						<FaRobot className="text-4xl text-blue-500 flex-shrink-0" />
 						<h3 className="text-lg flex-grow font-semibold mb-2 ml-4">Our AI agent calls your customer</h3>
 					</div>
-					<p className="flex-grow">Jazaa‘s AI agent will call your customer and ask them to confirm their membership.</p>
+					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
+					<p className="flex-grow">Jazaa‘s AI agent will call your customer and offers them the reward, directing them to pay over SMS or WhatsApp.</p>
+					</div>
 				</div>
 				<MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90 md:rotate-0 text-5xl mx-auto" />
 				{/* WhatsApp message */}
-				<div className="flex flex-col bg-green-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
+				<div className="flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
 					<div className="flex items-center ">
-						<FaWhatsapp className="text-4xl text-green-500 flex-shrink-0" />
-						<h3 className="text-lg font-semibold mb-1 ml-4">Automated WhatsApp message to customer</h3>
+						<MdMessage className="text-4xl text-blue-500 flex-shrink-0" />
+						<h3 className="text-lg font-semibold mb-1 ml-4">Automated WhatsApp/SMS message to customer</h3>
 					</div>
-					<p className="flex-grow mt-1">Hi Sarah 👋, we missed you! Come back for a grooming session and get a 15% discount on your next visit. You can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a></p>
+					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
+					<p className="flex-grow mt-1">Hi Sarah 👋, it was nice talking to you over the phone! Come back for a session and get <span className="bg-white text-blue-500 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. You can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a></p>
+					</div>
 				</div>
 			</div>
       </section>
