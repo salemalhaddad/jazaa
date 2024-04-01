@@ -3,10 +3,15 @@ import React, {useState, useEffect} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { UserAuth } from "../../context/AuthContext";
+import { Drawer, List, ListItem, ListItemText, IconButton, useMediaQuery, useTheme } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import { blue } from '@material-ui/core/colors';
 
 export default function Navbar() {
 	const { user, googleSignIn, logOut } = UserAuth();
 	const [loading, setLoading] = useState(true);
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const handleSignIn = async () => {
 		try {
@@ -23,6 +28,12 @@ export default function Navbar() {
 			console.log(error);
 		}
 	}
+
+	const [open, setOpen] = React.useState(false);
+
+	const toggle = () => {
+		setOpen((prevState) => !prevState);
+	};
 
 	useEffect(() => {
 		const checkAuthentication = async () => {
@@ -43,14 +54,21 @@ export default function Navbar() {
 				{/* Primary Navbar items */}
 				<div className=" flex space-x-5">
 					{loading ? null : !user ? (
-						<div className=" flex space-x-5 m-10">
-						<a href="#how-it-works" className="text-blue-700 font-semibold hover:text-blue-500 transition duration-300">How It Works</a>
-						<a href="#features" className="text-blue-700 font-semibold hover:text-blue-500 transition duration-300">Features</a>
-						<a href="#faq" className="text-blue-700 font-semibold hover:text-blue-500 transition duration-300">FAQ</a>
-						{/* <a onClick={handleSignIn} className="bg-blue-600 px-4 py-2 rounded font-semibold hover:text-blue-500 transition duration-300">
-							Sign In
-						</a> */}
-						</div>
+						isMobile && (
+							<div className="flex space-x-5 m-10">
+								<IconButton className="" edge="start" color="inherit" aria-label="menu" onClick={toggle} style={{ color: blue[600] }}>
+									<MenuIcon />
+								</IconButton>
+								<Drawer anchor="right" open={open} onClose={toggle}>
+									<List>
+										<ListItem button className="font-semibold" onClick={toggle}><ListItemText  primary="How It Works" /></ListItem>
+										<ListItem button onClick={toggle}><ListItemText primary="Features" /></ListItem>
+										<ListItem button onClick={toggle}><ListItemText primary="FAQ" /></ListItem>
+										<ListItem button onClick={handleSignIn}><ListItemText primary="Sign Up" /></ListItem>
+									</List>
+								</Drawer>
+							</div>
+						)
 					) : (
 						<div className="flex items-center">
 							<a className="text-blue-700 font-semibold hover:text-blue-500 mr-4 ">Welcome, {user.displayName}</a>
@@ -59,11 +77,11 @@ export default function Navbar() {
 							</a>
 						</div>
 					)}
+
 				</div>
+
 			</nav>
 
 
 		</div>);
-}
-
-
+};
