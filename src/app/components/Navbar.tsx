@@ -3,15 +3,15 @@ import React, {useState, useEffect} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { UserAuth } from "../../context/AuthContext";
-import { Drawer, List, ListItem, ListItemText, IconButton, useMediaQuery, useTheme } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import { blue } from '@material-ui/core/colors';
+import { Drawer, List, ListItem, ListItemText, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import MenuIcon from '@mui/icons-material';
+import { blue } from '@mui/icons-material';
 
 export default function Navbar() {
 	const { user, googleSignIn, logOut } = UserAuth();
 	const [loading, setLoading] = useState(true);
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+	// const theme = useTheme();
+	// const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const handleSignIn = async () => {
 		try {

@@ -140,7 +140,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Jazaa - Double Your Repeat Business</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="favicon.ico" />
       </Head>
 	  {/* Navigation Bar*/}
 
@@ -195,17 +195,27 @@ export default function Home() {
 		<h2 className="text-3xl  text-blue-600 font-bold text-center m-10">How It Works</h2>
 		<div className="md:ml-10 md:mt-0 md:flex md:flex-row grid grid-cols-1 md:grid-cols-3 items-center m-10 ">
 			<div className="flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
-					<div className="flex items-center mb-2">
+					<div className="flex items-center mb-1">
 						<MdDiscount className="text-4xl text-blue-500 flex-shrink-0" />
 						<h3 className="text-lg font-semibold mb-2 ml-4">Choose your customer reward preferences</h3>
 					</div>
-					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
+					<div className=" bg-blue-60 p-2 transition-all duration-500 ease-in-out ">
 						<p className="flex-grow mb-2">Specify <b>when</b> and <b>how</b> to reward your customers:</p>
 						{/* Dynamic Sentence */}
-						<div className="text-center bg-blue-60 p-4 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
+						<div className="text-center bg-gradient-to-r from-white to-blue-60 border border-blue-500 p-4 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
 							<p className="text-lg font-semibold">I want to reach out to my customer <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> after their last visit with <span className="bg-white text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">{reward}</span>.</p>
 						</div>
 					</div>
+						{/* <div className="p-2 bg-white rounded-lg shadow-md">
+        <p className="text-lg font-semibold">
+            I want to reach out to my customer
+            <span className="bg-blue-100 text-blue-600 py-0.25 px-2 font-bold rounded-full shadow-sm">{currentNotification}</span>
+            after their last visit with
+            <span className="bg-blue-100 text-blue-600 py-0.25 px-2 rounded-full font-bold shadow-sm">{reward}</span>.
+        </p>
+    </div>
+</div> */}
+
 					{/* Buttons */}
 					{/* <div className="flex justify-center space-x-6 mt-5">
 						<button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">
@@ -219,7 +229,7 @@ export default function Home() {
 				{/* Arrow icon */}
 				<MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90  md:rotate-0 text-5xl mx-auto" />
 				{/* Phone Call */}
-				<div className="flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
+				{/* <div className="flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
 					<div className="flex items-center mb-2">
 						<FaRobot className="text-4xl text-blue-500 flex-shrink-0" />
 						<h3 className="text-lg flex-grow font-semibold mb-2 ml-4">Our AI agent calls your customer</h3>
@@ -227,8 +237,8 @@ export default function Home() {
 					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
 					<p className="flex-grow">Jazaa‘s AI agent will call your customer and offers them the reward, directing them to pay over SMS or WhatsApp.</p>
 					</div>
-				</div>
-				<MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90 md:rotate-0 text-5xl mx-auto" />
+				</div> */}
+				{/* <MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90 md:rotate-0 text-5xl mx-auto" /> */}
 				{/* WhatsApp message */}
 				<div className="flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
 					<div className="flex items-center ">
@@ -236,7 +246,7 @@ export default function Home() {
 						<h3 className="text-lg font-semibold mb-1 ml-4">Automated WhatsApp/SMS message to customer</h3>
 					</div>
 					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
-					<p className="flex-grow mt-1">Hi Sarah 👋, it was nice talking to you over the phone! Come back for a session and get <span className="bg-white text-blue-500 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. You can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a></p>
+					<p className="flex-grow mt-1">Hi Sarah 👋, it was nice talking to you over the phone! Come back for a session and get <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. You can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a></p>
 					</div>
 				</div>
 			</div>
