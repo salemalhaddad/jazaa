@@ -9,7 +9,7 @@ import Image from 'next/image'
 const inter = Inter({ subsets: ["latin"] });
 import Head from 'next/head';
 import { AuthContextProvider } from '../context/AuthContext'
-import Navbar from './components/Navbar'
+import { Navbar } from './components/Navbar'
 
 export default function RootLayout({ children, } : any) {
   return (
@@ -29,7 +29,7 @@ export default function RootLayout({ children, } : any) {
 		</head>
       <body className={inter.className}>
 
-		<Navbar />
+		<Navbar></Navbar>
 		<main>{children}</main>
 
 

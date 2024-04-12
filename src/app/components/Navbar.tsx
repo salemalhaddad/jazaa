@@ -3,45 +3,43 @@ import React, {useState, useEffect} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { UserAuth } from "../../context/AuthContext";
-import { Drawer, List, ListItem, ListItemText, IconButton, useMediaQuery, useTheme } from '@mui/material';
-import MenuIcon from '@mui/icons-material';
-import { blue } from '@mui/icons-material';
 
-export default function Navbar() {
-	const { user, googleSignIn, logOut } = UserAuth();
-	const [loading, setLoading] = useState(true);
+
+export const Navbar = () => {
+	// const { user, googleSignIn, logOut } = UserAuth();
+	// const [loading, setLoading] = useState(true);
 	// const theme = useTheme();
 	// const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-	const handleSignIn = async () => {
-		try {
-			await googleSignIn();
-		} catch (error) {
-			console.log(error);
-		}
-	}
+	// const handleSignIn = async () => {
+	// 	try {
+	// 		await googleSignIn();
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// }
 
-	const handleSignOut = async () => {
-		try {
-			await logOut();
-		} catch (error) {
-			console.log(error);
-		}
-	}
+	// const handleSignOut = async () => {
+	// 	try {
+	// 		await logOut();
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// }
 
-	const [open, setOpen] = React.useState(false);
+	// const [open, setOpen] = React.useState(false);
 
-	const toggle = () => {
-		setOpen((prevState) => !prevState);
-	};
+	// const toggle = () => {
+	// 	setOpen((prevState) => !prevState);
+	// };
 
-	useEffect(() => {
-		const checkAuthentication = async () => {
-			await new Promise((resolve) => setTimeout(resolve, 50));
-			setLoading(false);
-		};
-		checkAuthentication();
-	}, [user]);
+	// useEffect(() => {
+	// 	const checkAuthentication = async () => {
+	// 		await new Promise((resolve) => setTimeout(resolve, 50));
+	// 		setLoading(false);
+	// 	};
+	// 	checkAuthentication();
+	// }, [user]);
 
 	return (
 		<div>
@@ -53,12 +51,36 @@ export default function Navbar() {
 
 				{/* Primary Navbar items */}
 				<div className=" flex space-x-5">
-					{loading ? null : !user ? (
+					<Link legacyBehavior href="#how-it-works">
+						<a className="text-blue-700 font-semibold hover:text-blue-500">How It Works</a>
+					</Link>
+					<Link legacyBehavior href="#features">
+						<a className="text-blue-700 font-semibold hover:text-blue-500">Features</a>
+					</Link>
+					<Link legacyBehavior href="#faq">
+						<a className="text-blue-700 font-semibold hover:text-blue-500">FAQs</a>
+					</Link>
+					<Link legacyBehavior href="#contact">
+						<a className="text-blue-700 font-semibold hover:text-blue-500">Contact</a>
+					</Link>
+
+					{/* <div className="flex space-x-5 m-10">
+						<MenuIcon edge="start" color="inherit" aria-label="menu" >
+						</MenuIcon>
+						<Drawer >
+							<List>
+								<ListItem><ListItemText  primary="How It Works" /></ListItem>
+								<ListItem ><ListItemText primary="Features" /></ListItem>
+								<ListItem ><ListItemText primary="FAQ" /></ListItem>
+								<ListItem><ListItemText primary="Sign Up" /></ListItem>
+							</List>
+						</Drawer>
+					</div> */}
+					{/* {loading ? null : !user ? (
 						isMobile && (
 							<div className="flex space-x-5 m-10">
-								<IconButton className="" edge="start" color="inherit" aria-label="menu" onClick={toggle} style={{ color: blue[600] }}>
-									<MenuIcon />
-								</IconButton>
+								<MenuIcon edge="start" color="inherit" aria-label="menu" onClick={toggle}>
+								</MenuIcon>
 								<Drawer anchor="right" open={open} onClose={toggle}>
 									<List>
 										<ListItem button className="font-semibold" onClick={toggle}><ListItemText  primary="How It Works" /></ListItem>
@@ -76,7 +98,7 @@ export default function Navbar() {
 								Sign Out
 							</a>
 						</div>
-					)}
+					)} */}
 
 				</div>
 

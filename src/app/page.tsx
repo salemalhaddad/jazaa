@@ -9,11 +9,9 @@ import { MdArrowDownward, MdArrowRight, MdMessage, MdDiscount, MdPhone } from 'r
 import { FaCreditCard, FaMoneyCheckAlt } from 'react-icons/fa'; // Import relevant icons
 import { SiVisa, SiMastercard } from 'react-icons/si'; // Icons for Visa and Mastercard
 import Link from 'next/link'
+import { PopupButton } from '@typeform/embed-react'
 
 export default function Home() {
-
-
-
 	// const [email, setEmail] = useState('');
 	// const [phone, setPhone] = useState('');
 	// const [alertMessage, setAlertMessage] = useState('');
@@ -92,66 +90,61 @@ export default function Home() {
 		}
 
 	const notifications = [
-		{ message: "1 month" },
-		{ message: "1 week" },
-		{ message: "1 day" }
+		{ message: "one month" },
+		{ message: "one week" },
+		{ message: "one day" }
 		];
+	const rewards = [
+		{ reward: "15% discount" },
+		{ reward: "25% discount" },
+		{ reward: "35% discount" },
+	]
+	const customerNames = [
+		{ name: "Sarah" },
+		{ name: "Mohamed" },
+		{ name: "John" },
+	]
 
-		const [currentNotification, setCurrentNotification] = useState(notifications[0].message);
-		const [notificationIndex, setNotificationIndex] = useState(0);
+	const [currentNotification, setCurrentNotification] = useState(notifications[0].message);
+	const [notificationIndex, setNotificationIndex] = useState(0);
+	const [customerName, setCustomerName] = useState(customerNames[0].name);
+	const [reward, setReward] = useState(rewards[0].reward);
 
-		useEffect(() => {
-		// Cycle through notifications every 4 seconds
+	useEffect(() => {
+	// Cycle through notifications every 4 seconds
 		const intervalId = setInterval(() => {
 			setNotificationIndex((i) => {
-			const nextIndex = (i + 1) % notifications.length;
-			setCurrentNotification(notifications[nextIndex].message);
-			return nextIndex;
+				const nextIndex = (i + 1) % notifications.length;
+				setCurrentNotification(notifications[nextIndex].message);
+				setCustomerName(customerNames[nextIndex].name);
+				setReward(rewards[nextIndex].reward);
+				return nextIndex;
 			});
-		}, 4000);
+	}, 4000);
 
-		return () => clearInterval(intervalId);
-		}, []);
+	return () => clearInterval(intervalId);
+	}, []);
 
-		const notificationToRewardMap: NotificationMap = {
-			"1 month": (
-				<>15% discount</>
-			),
-			"1 week": (
-				<>Gift cards</>
-			),
-			"1 day": (
-				<>Free products</>
-			)
-			}
-
-
-		const generateReward = (notification: string) => {
-			return notificationToRewardMap[notification];
-		};
-
-		const [reward, setReward] = useState(generateReward(currentNotification));
-
-		// Update the WhatsApp message whenever the notification changes
-		useEffect(() => {
-		setReward(generateReward(currentNotification));
-		}, [currentNotification]);
   return (
     <div>
       <Head>
         <title>Jazaa - Double Your Repeat Business</title>
         <link rel="icon" href="favicon.ico" />
+		<meta
+			name="description"
+			content="Jazaa helps businesses leverage WhatsApp to attract customers for repeat visits."
+		/>
+
       </Head>
 	  {/* Navigation Bar*/}
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-800 to-blue-500 text-white">
-        <div className="max-w-7xl mx-auto items-center px-6 md:px-12 py-20 md:py-32">
-          <div className="md:space-y-8">
-            <h1 className="text-4xl font-bold leading-tight zmd:text-5xl md:leading-snug">Jazaa: <br></br> Maximize customer lifetime value with automated renewal reminders.
-</h1>
+	  <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6 md:px-12 py-20 md:py-32">
+          <div className="md:w-3/4 space-y-6 md:space-y-8">
+            <h1 className="text-5xl font-bold leading-tight md:text-6xl md:leading-snug">Jazaa: <br></br> <div className="font-semibold"> Increase your customer lifetime value through automated & personalized messaging </div></h1>
             <p className="text-xl font-light leading-relaxed md:text-2xl md:leading-relaxed">
-              Jazaa helps service businesses, like gyms and spas, increase their repeat customers through powerful automation.
+              Jazaa helps service businesses, like gyms and spas, leverage  <br></br> WhatsApp to lessen time spent on customer repeat visits.
             </p>
             {/* <a href="mailto:hello@jazaa.com" className="inline-block bg-white text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
               Contact Sales
@@ -177,14 +170,25 @@ export default function Home() {
 					Get Early Access
 				</button>
        		</form> */}
-			<Link href="https://cal.com/jazaa/30min" >
-			   <button rel="noopener noreferrer" className="bg-white mt-4 text-blue-600 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
-					 Schedule a Demo
-				</button> </Link>
 
-				{/* <Link className="bg-white text-blue-600 py-4 px-6 ml-4 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg" href="/signin">Sign In</Link> */}
+
+
+					<PopupButton id="S61rXVTl" className="bg-white text-blue-600 mb-4 py-3 px-6 rounded-full text-lg font-medium transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
+						Contact Us
+					</PopupButton>
+
 
           </div>
+
+		  <div className="md:w-1/3 mt-7 flex flex-col bg-blue-100 rounded-xl shadow-lg p-4 text-gray-800 w-full ">
+					<div className="flex items-center ">
+						<MdMessage className="ml-3 text-4xl text-blue-500 flex-shrink-0" />
+						<h3 className="text-lg font-semibold mt-2 ml-4">Automated WhatsApp/SMS message to your customer</h3>
+					</div>
+					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
+					<p className="flex-grow mt-1">Hi <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{customerName}</span> 👋, it&apos;s been <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> since your last visit! Come back for a session and get <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. <br></br>  <br></br>  Offer is only valid for the next 24 hours so you can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a> <br></br>  <br></br> Let us know if you have any questions!</p>
+					</div>
+			</div>
 
 		</div>
       </section>
@@ -200,7 +204,6 @@ export default function Home() {
 						<h3 className="text-lg font-semibold mb-2 ml-4">Choose your customer reward preferences</h3>
 					</div>
 					<div className=" bg-blue-60 p-2 transition-all duration-500 ease-in-out ">
-						<p className="flex-grow mb-2">Specify <b>when</b> and <b>how</b> to reward your customers:</p>
 						{/* Dynamic Sentence */}
 						<div className="text-center bg-gradient-to-r from-white to-blue-60 border border-blue-500 p-4 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
 							<p className="text-lg font-semibold">I want to reach out to my customer <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> after their last visit with <span className="bg-white text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">{reward}</span>.</p>
@@ -246,7 +249,7 @@ export default function Home() {
 						<h3 className="text-lg font-semibold mb-1 ml-4">Automated WhatsApp/SMS message to customer</h3>
 					</div>
 					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
-					<p className="flex-grow mt-1">Hi Sarah 👋, it was nice talking to you over the phone! Come back for a session and get <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. You can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a></p>
+					<p className="flex-grow mt-1">Hi <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{customerName}</span> 👋, it&apos;s been <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> since your last visit! Come back for a session and get <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. <br></br>  <br></br>  Offer is only valid for the next 24 hours so you can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a> <br></br>  <br></br> Let us know if you have any questions!</p>
 					</div>
 				</div>
 			</div>
@@ -392,7 +395,7 @@ export default function Home() {
 
 
       {/* Call to Action Section */}
-      <section className="py-20">
+      <section id="contact" className="py-20">
         <div className="max-w-6xl mx-auto px-6 md:px-12 text-center">
           <h2 className="text-3xl font-bold">Ready to grow your business?</h2>
           <p className="mt-4 text-lg">
