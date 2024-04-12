@@ -2,6 +2,7 @@
 import Image from "next/image";
 // Example import statement using the alias
 import Head from 'next/head';
+import type { Metadata } from 'next'
 import { useState, useEffect } from 'react';
 import { MdKeyboardArrowDown, MdNotifications, MdChat } from 'react-icons/md'; // Added MdChat for WhatsApp icon
 import { FaWhatsapp, FaRobot } from 'react-icons/fa'

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 // layout.tsx or any other component
-import { metadata } from '../../metadata'; // Adjust the import path as needed
 import { GoogleAnalytics } from '@next/third-parties/google'
 import Script from 'next/script'
 import Image from 'next/image'
@@ -10,6 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 import Head from 'next/head';
 import { AuthContextProvider } from '../context/AuthContext'
 import { Navbar } from './components/Navbar'
+
+
+export const metadata: Metadata = {
+  title: 'Jazaa: Helping you attract more repeat customers through WhatsApp',
+  description: 'Jazaa helps businesses leverage WhatsApp to attract customers for repeat visits.',
+};
 
 export default function RootLayout({ children, } : any) {
   return (
