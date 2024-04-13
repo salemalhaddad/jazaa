@@ -45,7 +45,7 @@ export const Navbar = () => {
 		<div>
 			<nav className="shadow-lg bg-white h-25 flex items-center justify-between px-6">
 				{/* Website Logo */}
-				<a href="#" className="flex items-center">
+				<a href="/" className="flex items-center">
 					<Image src="/Jazaa.png" alt="Jazaa Logo" width={110} height={110}  />
 				</a>
 

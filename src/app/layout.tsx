@@ -9,7 +9,10 @@ const inter = Inter({ subsets: ["latin"] });
 import Head from 'next/head';
 import { AuthContextProvider } from '../context/AuthContext'
 import { Navbar } from './components/Navbar'
+import * as Frigade from '@frigade/react';
 
+
+const FRIGADE_API_KEY = "api_public_7d1ybWu2ZunHuIfjK8qZWRrSkVyWuTu52WM7N1eKG2IFDeQCEkTVZGMdZNvCUZQX";
 
 export const metadata: Metadata = {
   title: 'Jazaa: Helping you attract more repeat customers through WhatsApp',
@@ -19,6 +22,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, } : any) {
   return (
     <html lang="en">
+		<Frigade.Provider apiKey={FRIGADE_API_KEY}>
 		<AuthContextProvider>
 		<head>
 			<Script async src="https://www.googletagmanager.com/gtag/js?id=G-KBW8FJK6EF"></Script>
@@ -40,6 +44,7 @@ export default function RootLayout({ children, } : any) {
 
 	</body>
 	</AuthContextProvider>
+	</Frigade.Provider>
     </html>
   );
 }
