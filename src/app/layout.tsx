@@ -7,7 +7,6 @@ import Script from 'next/script'
 import Image from 'next/image'
 const inter = Inter({ subsets: ["latin"] });
 import Head from 'next/head';
-import { AuthContextProvider } from '../context/AuthContext'
 import { Navbar } from './components/Navbar'
 import * as Frigade from '@frigade/react';
 
@@ -23,7 +22,6 @@ export default function RootLayout({ children, } : any) {
   return (
     <html lang="en">
 		<Frigade.Provider apiKey={FRIGADE_API_KEY}>
-		<AuthContextProvider>
 		<head>
 			<Script async src="https://www.googletagmanager.com/gtag/js?id=G-KBW8FJK6EF"></Script>
 			<Script id="google-analytics"> {
@@ -43,7 +41,6 @@ export default function RootLayout({ children, } : any) {
 
 
 	</body>
-	</AuthContextProvider>
 	</Frigade.Provider>
     </html>
   );

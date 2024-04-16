@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import DetailsButtonServer from "../../components/details-button-server";
 
 export default function Page() {
     const [typeOfBusiness, setTypeOfBusiness] = useState('');
@@ -24,6 +25,7 @@ export default function Page() {
 
     return (
         <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+			<DetailsButtonServer />
             <form className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full" onSubmit={e => e.preventDefault()}>
                 <h2 className="text-2xl font-semibold mb-6 text-gray-800">Business Onboarding</h2>
 
