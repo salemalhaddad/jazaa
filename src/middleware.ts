@@ -10,16 +10,9 @@ export async function middleware(request: NextRequest) {
 
   const supabase = createSupabaseReqResClient(request, response);
 
-  let session;
-  try {
-    const {
-      data: { session: sessionData },
-    } = await supabase.auth.getSession();
-    session = sessionData;
-  } catch (error) {
-    console.error("Error getting session:", error);
-    // Handle error appropriately
-  }
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const user = session?.user;
 
@@ -33,4 +26,4 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: ["/", "/account/:path*"],
-};
+}
