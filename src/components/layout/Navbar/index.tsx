@@ -5,26 +5,30 @@ import Link from "next/link";
 import { useState } from "react";
 
 const links = [
-	{
-		label: "Products",
-		href: "/",
-	},
-	{
-		label: "Benefit",
-		href: "/",
-	},
+	// {
+	// 	label: "Products",
+	// 	href: "/",
+	// },
+	// {
+	// 	label: "Features",
+	// 	href: "#features",
+	// },
 	{
 		label: "How it Works",
-		href: "/",
+		href: "#hiw",
 	},
-	{
-		label: "Pricing",
-		href: "/#pricing",
-	},
-	{
-		label: "Company",
-		href: "/",
-	},
+	// {
+	// 	label: "Why Us",
+	// 	href: "#why-us"
+	// }
+	// {
+	// 	label: "Pricing",
+	// 	href: "#pricing",
+	// },
+	// {
+	// 	label: "Company",
+	// 	href: "/",
+	// },
 ];
 
 const Navbar = () => {
@@ -49,9 +53,7 @@ const Navbar = () => {
 					aria-label="Company"
 					title="Company"
 					className="inline-flex items-center">
-					<span className="text-xl font-bold tracking-wide uppercase">
-						LOGO.
-					</span>
+					<img src="/Jazaa.png" alt="Company Logo" style={{ maxWidth: '150px', maxHeight: '100px' }}></img>
 				</Link>
 				<ul className="hidden items-center gap-12 lg:flex">
 					{links.map((link) => (

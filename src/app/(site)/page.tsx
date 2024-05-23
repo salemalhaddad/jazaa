@@ -16,11 +16,13 @@ export default function Home() {
 				<Navbar />
 				<Header />
 			</div>
-			<Benefits />
+			{/* <Benefits /> */}
+		
 			<HowItWorks />
-			<WhyUs />
-			<Testimonials />
-			<Pricing />
+
+			{/* <WhyUs /> */}
+			{/* <Testimonials /> */}
+			{/* <Pricing /> */}
 			<Footer />
 		</main>
 	);

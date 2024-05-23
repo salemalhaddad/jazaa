@@ -1,0 +1,149 @@
+"use client"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/navigation";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { MdArrowDownward } from "react-icons/md";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+
+const Onboarding = () => {
+	const supabaseClient = useSupabaseClient();
+	const router = useRouter();
+	const { session } = useSessionContext();
+    const user = session?.user;
+
+	const [businessName, setBusinessName] = useState("");
+	const [businessType, setBusinessType] = useState("");
+	const [reasonForRegistering, setReasonForRegistering] = useState("");
+	const [rewardMethod, setRewardMethod] = useState("");
+	const [frequency, setRewardFrequency] = useState("");
+	const [frequency_unit, setRewardFrequencyUnit] = useState("");
+	const [pricePlan, setPricePlan] = useState("");
+	const [terms, setTerms] = useState(false);
+
+	const handleOnboarding = async () => {
+		// Handle onboarding logic here
+	};
+
+	const handleBusinessNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setBusinessName(e.target.value);
+	};
+
+	const handleBusinessTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setBusinessType(e.target.value);
+	};
+
+	const handleReasonForRegisteringChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setReasonForRegistering(e.target.value);
+	};
+
+	const handleRewardFrequencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setRewardFrequency(e.target.value);
+	};
+
+	const handleRewardFrequencyUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setRewardFrequencyUnit(e.target.value);
+	};
+
+	const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTerms(e.target.checked);
+	};
+
+	const handleSubmit = async () => {
+		if (!terms) {
+			alert("Please accept the terms and conditions");
+			return;
+		}
+		const { data, error } = await supabaseClient
+			.from('jazaa-users')
+			.insert([
+				{ businessName, businessType, reasonForRegistering, frequency, frequency_unit }
+			])
+
+		if (error) console.log("Error in onboarding page", error);
+		else {
+			console.log("Data insertion successful: ", data);
+			router.push('/dashboard')
+		};
+	};
+
+	return (
+		<div className="grid grid-cols-2 items-center min-h-screen">
+			<div className="w-full h-full bg-slate-900">
+				<div className="flex flex-col items-center justify-center gap-4 h-full mx-7">
+					<h2 className="text-2xl font-bold text-white mb-4">Onboarding Steps</h2>
+					<div className="flex flex-col items-center justify-center">
+						<p className="text-gray-400 mb-4">Step 1: Sign Up </p>
+						<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
+						<p className="text-blue-300 mb-4">Step 2: Enter your details </p>
+						<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
+						<p className="text-gray-300">Step 3: Connect to WhatsApp Business Platform</p>
+					</div>
+				</div>
+			</div>
+			<div className="flex items-center justify-center">
+				<div className="flex flex-col items-center gap-4">
+					<h1 className="text-3xl font-bold">Welcome to Jazaa</h1>
+					<p className="text-gray-500">Enter your details to continue!</p>
+					<div className="w-[350px]">
+						<form className="space-y-4 md:space-y-6" action="#">
+							<div>
+								<label htmlFor="businessName" className="block mb-2 mt-4 text-sm font-medium text-gray-900 dark:text-white">Business Name</label>
+								<input type="text" name="businessName" id="businessName" value={businessName} onChange={handleBusinessNameChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your business name" required />
+							</div>
+							<div>
+								<label htmlFor="businessType" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Business Type</label>
+								<input type="text" name="businessType" id="businessType" value={businessType} onChange={handleBusinessTypeChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your business type" required />
+							</div>
+							<div>
+								<label htmlFor="reasonForRegistering" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reason for Registering</label>
+								<input type="text" name="reasonForRegistering" id="reasonForRegistering" value={reasonForRegistering} onChange={handleReasonForRegisteringChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your reason for registering" required />
+							</div>
+							<div>
+								<label htmlFor="rewardFrequency" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Reward Frequency</label>
+								<div className="flex items-center space-x-2">
+									<input
+										type="number"
+										id="rewardFrequency"
+										value={frequency}
+										onChange={handleRewardFrequencyChange}
+										className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										placeholder="Frequency"
+									/>
+									<select
+										id="rewardFrequencyUnit"
+										value={frequency_unit}
+										onChange={handleRewardFrequencyUnitChange}
+										className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									>
+										<option value="days" className="text-gray-900">Days</option>
+										<option value="weeks" className="text-gray-900">Weeks</option>
+										<option value="months" className="text-gray-900">Months</option>
+									</select>
+								</div>
+							</div>
+							<div className="flex items-start">
+								<div className="flex items-center h-5">
+									<input id="terms" aria-describedby="terms" type="checkbox" checked={terms} onChange={handleTermsChange} className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required />
+								</div>
+								<div className="ml-3 text-sm">
+									<label htmlFor="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <a className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">Terms and Conditions</a></label>
+								</div>
+							</div>
+							<button type="submit" onClick={handleSubmit} className="w-full text-white bg-[#0D121F] hover:bg-8057f0 focus:ring-4 focus:outline-none focus:ring-8057f0 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-0D121F dark:hover:bg-8057f0 dark:focus:ring-8057f0">Create an account</button>
+							<p className="text-sm font-light text-gray-500 dark:text-gray-400">
+								Already have an account? <a href="/sign-in" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
+							</p>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default Onboarding;
+
