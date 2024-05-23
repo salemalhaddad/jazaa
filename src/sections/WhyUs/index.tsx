@@ -33,7 +33,9 @@ const withoutFeatures = [
 
 const WhyUs: React.FC = () => {
 	return (
-		<div className="flex flex-col items-start justify-start gap-8 min-h-[80vh] px-[50px] lg:px-[200px]">
+		
+		<div id="why-us" className="flex flex-col items-start justify-start gap-8 min-h-[80vh] px-[50px] lg:px-[200px]">
+			{/* <section id="hiw">  */}
 			<div className="flex flex-col items-start gap-2">
 				<p className="font-medium uppercase text-primary">
 					Increase Productivity
@@ -100,6 +102,7 @@ const WhyUs: React.FC = () => {
 					</div>
 				</TabsContent>
 			</Tabs>
+			{/* </section> */}
 		</div>
 	);
 };

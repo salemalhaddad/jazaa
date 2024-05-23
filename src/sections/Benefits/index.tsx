@@ -1,38 +1,38 @@
 const data = [
 	{
-		image: "",
-		title: "Automatic Invoice Payment",
+		image: "/whatsapp-icon.png",
+		title: "Automated WhatsApp Messaging",
 		description:
-			"No need to pay manually, we provide automatic invoice payment service! Set a payment schedule and you are done",
+			"Let Jazaa take care of notifying customers with monthly and/or weekly personalized discounts and offers you agree on.",
 	},
 	{
-		image: "",
-		title: "Clear payment history",
+		image: "/visa.png",
+		title: "Seamless & Flexible Payments",
 		description:
-			"No need to pay manually, we provide automatic invoice payment service! Set a payment schedule and you are done",
+			"Make it easier for your customers to pay online using credit/debit cards or buy now pay later options.",
 	},
 	{
-		image: "",
-		title: "Use of multi-card payments",
+		image: "/graph.png",
+		title: "Insights Dashboard",
 		description:
-			"No need to pay manually, we provide automatic invoice payment service! Set a payment schedule and you are done",
+			"Track and monitor customer profiles, accepted/rejected offers, and other insights on customer loyalty.",
 	},
 ];
 
 const Benefits: React.FC = () => {
 	return (
-		<div className="flex flex-col items-start justify-center gap-12 min-h-[100vh] text-left px-[50px] lg:px-[200px]">
+		<div id="features" className="flex flex-col items-start justify-center gap-12 min-h-[100vh] text-left px-[50px] lg:px-[200px]">
 			<div className="flex flex-col items-start justify-start gap-2">
-				<p className="font-semibold uppercase text-primary">Why use SPEND.IN</p>
+				<p className="font-semibold uppercase mt-14 text-primary">Why use Jazaa</p>
 				<div className="flex items-center gap-20">
 					<h1 className="text-[40px] font-semibold">
-						Easy, Simple, <br /> Affordable
+						Making Customer Retention Automated, Flexible, and Insightful
 					</h1>
-					<p className="text-[18px] w-[500px] font-light">
+					{/* <p className="text-[18px] w-[500px] font-light">
 						We provide a wide array of services to help you manage your
 						finances. Our services are easy to use, simple to understand and
 						affordable for everyone.
-					</p>
+					</p> */}
 				</div>
 			</div>
 
@@ -56,3 +56,6 @@ const Benefits: React.FC = () => {
 };
 
 export default Benefits;
+
+
+
