@@ -20,12 +20,24 @@ export default function Preferences() {
 
     const router = useRouter();
 
-    
-
     const handleDataUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCustomerDataFile(e.target.files?.[0] ?? null);
         setUploadSuccess(false); // Reset upload success state on new file selection
     }
+
+    const sendMessage = async () => {
+        const response = await fetch('/api/sendMessage', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // You can pass any required data in the body
+        });
+    
+        const data = await response.json();
+        console.log(data);
+      };
+
 
     const handleCsvUpload = async () => {
         const file = customerDataFile;
@@ -80,6 +92,15 @@ export default function Preferences() {
               if (existingRows.length === 0) {
                 // Row does not exist, proceed to insert
                 const { error: insertError } = await supabaseClient.from('customer-visits').insert([rowWithBusiness]);
+                
+                await fetch('https://localhost:3000/api/send-message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                
                 if (insertError) {
                   console.error('Error inserting row:', insertError);
                 }
