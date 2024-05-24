@@ -76,11 +76,11 @@ const Card = ({ title, description, user }: Testimonial) => {
 			<div className="w-full flex flex-col items-start gap-3">
 				<Separator />
 				<div className="flex items-center gap-3">
-					<img
+					{/* <img
 						src={user.image}
 						alt={user.name}
 						className="w-[60px] h-[60px] rounded-full"
-					/>
+					/> */}
 					<div className="flex flex-col items-start">
 						<p className="text-[16px] font-semibold">{user.name}</p>
 						<p className="text-slate-500 text-[14px]">{user.role}</p>

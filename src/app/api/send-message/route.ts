@@ -6,7 +6,7 @@ import axios from 'axios';
 var cron = require('node-cron');
 import { cookies } from 'next/headers'
 
-export async function POST(req, res) {
+export async function POST() {
     const cookieStore = cookies()
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -32,11 +32,12 @@ export async function POST(req, res) {
         .select()
        
         console.log(error)
+        if (data) {
         for (const row of data) {
             const current_customer = row.customer_name;
             const lastVisitDate = new Date('2024-04-25'); // or row.last_visit
             const currentDate = new Date();
-            const differenceInDays = Math.round(((currentDate - lastVisitDate) / (1000 * 3600 * 24)) * 100) / 10;
+            const differenceInDays = Math.round(((currentDate.getTime() - lastVisitDate.getTime()) / (1000 * 3600 * 24)) * 100) / 100;
             console.log(`Current customer: ${current_customer}, Last visit date: ${lastVisitDate.toISOString()}, Difference in days: ${differenceInDays}`);
 
             if (row.message_sent == false && differenceInDays >= 30) {
@@ -72,6 +73,7 @@ export async function POST(req, res) {
                 console.log('and the result is...', data, ' where the error is ', error)
             }
         }
+      }
         
 
         return NextResponse.json({ data: 'Success', status: 200 });

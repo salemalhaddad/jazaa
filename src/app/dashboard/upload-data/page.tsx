@@ -11,9 +11,9 @@ import { useSessionContext } from '@supabase/auth-helpers-react';
 import Papa from 'papaparse';
 
 export default function Preferences() {
-    const [customerDataFile, setCustomerDataFile] = useState(null);
-    const [uploadSuccess, setUploadSuccess] = useState(false);
-    const supabaseClient = useSupabaseClient();
+  const [customerDataFile, setCustomerDataFile] = useState<File | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const supabaseClient = useSupabaseClient();
 
     const { session } = useSessionContext();
     const user = session?.user;
@@ -21,7 +21,11 @@ export default function Preferences() {
     const router = useRouter();
 
     const handleDataUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCustomerDataFile(e.target.files?.[0] ?? null);
+        if (e.target.files) {
+            setCustomerDataFile(e.target.files[0]);
+        } else {
+            setCustomerDataFile(null);
+        }
         setUploadSuccess(false); // Reset upload success state on new file selection
     }
 
@@ -45,8 +49,14 @@ export default function Preferences() {
         if (!file) {
           return;
         }
+
+        interface CsvRow {
+          customer_name: string;
+          
+        }
+        
       
-        Papa.parse(file, {
+        Papa.parse<CsvRow>(file, {
           header: true,
           complete: async function (results) {
             const { data, errors } = results;
@@ -58,13 +68,13 @@ export default function Preferences() {
       
             for (const row of data) {
               // Assuming there's a unique identifier in each row, like 'customer_id'
-              const uniqueIdentifier = row.customer_name; // Adjust based on actual unique identifier in your CSV/data structure
-              if (!uniqueIdentifier) {
-                console.error('Unique identifier missing in row, skipping:', row);
-                continue;
-              }
-
-              // Add 'business' column to each row
+              if (row) {
+                const uniqueIdentifier = row.customer_name; // Adjust based on actual unique identifier in your CSV/data structure
+                if (!uniqueIdentifier) {
+                  console.error('Unique identifier missing in row, skipping:', row);
+                  continue;
+                }
+                 // Add 'business' column to each row
               let businessName = "DefaultBusinessName"; // Fallback business name
               const { data: userData, error: userError } = await supabaseClient
                 .from('jazaa-users')
@@ -83,28 +93,28 @@ export default function Preferences() {
                 .from('customer-visits')
                 .select('*')
                 .eq('customer_name', uniqueIdentifier); // Adjust the column name ('customer_id') as per your database schema
-
-
-              if (fetchError) {
-                console.error('Error fetching existing rows:', fetchError);
-                continue;
-              }
-
-              if (existingRows.length === 0) {
-                // Row does not exist, proceed to insert
-                const { error: insertError } = await supabaseClient.from('customer-visits').insert([rowWithBusiness]);
-                console.log(rowWithBusiness);   
-                
-                if (insertError) {
-                  console.error('Error inserting row:', insertError);
+                if (fetchError) {
+                  console.error('Error fetching existing rows:', fetchError);
+                  continue;
                 }
-              } else {
-                console.log('Row already exists, skipping insert:', rowWithBusiness);
+  
+                if (existingRows.length === 0) {
+                  // Row does not exist, proceed to insert
+                  const { error: insertError } = await supabaseClient.from('customer-visits').insert([rowWithBusiness]);
+                  console.log(rowWithBusiness);   
+                  
+                  if (insertError) {
+                    console.error('Error inserting row:', insertError);
+                  }
+                } else {
+                  console.log('Row already exists, skipping insert:', rowWithBusiness);
+                }
               }
-            }
-      
-            console.log('CSV processing completed');
-            setUploadSuccess(true); // Set upload success state to true after processing is completed
+        
+              console.log('CSV processing completed');
+              setUploadSuccess(true); // Set upload success state to true after processing is completed
+
+              }  
           },
         });
       };
