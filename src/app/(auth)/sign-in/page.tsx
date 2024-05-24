@@ -20,23 +20,23 @@ const SignIn = () => {
 
 	
 
-	useEffect(() => {
-		if (user) {
-			const fetchBusinessName = async () => {
-				const { data, error } = await supabaseClient
-					.from('jazaa-users')
-					.select('businessName')
-					.eq('user_name', user?.user_metadata.full_name)
-					.single();
-				if (data && data.businessName == null) {
-					router.push("/onboarding");
-				} else {
-					router.push("/");
-				}
-			};
-			fetchBusinessName();
-		} 
-	}, [session, router, supabaseClient]);
+	// useEffect(() => {
+	// 	if (user) {
+	// 		const fetchBusinessName = async () => {
+	// 			const { data, error } = await supabaseClient
+	// 				.from('jazaa-users')
+	// 				.select('businessName')
+	// 				.eq('user_name', user?.user_metadata.full_name)
+	// 				.single();
+	// 			if (data && data.businessName == null) {
+	// 				router.push("/onboarding");
+	// 			} else {
+	// 				router.push("/");
+	// 			}
+	// 		};
+	// 		fetchBusinessName();
+	// 	} 
+	// }, [session, router, supabaseClient]);
 
 	return (
 		<div className="grid grid-cols-2 items-center min-h-screen">

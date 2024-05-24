@@ -61,7 +61,7 @@ export default function Dashboard() {
                             <MdCloudUpload className="mb-2 text-3xl text-primary flex-shrink-0" />
                             <div>
                                 <h3 className="text-gray-700 font-bold">Upload Customer Visit Data</h3>
-                                <p className="text-gray-600">Upload csv file of customer's last visits</p>
+                                <p className="text-gray-600">Upload csv file of customer last visits</p>
                             </div>
                         </div>
                     </Link>
@@ -70,7 +70,7 @@ export default function Dashboard() {
                             <MdPayment className="mb-2 text-3xl text-primary flex-shrink-0" />
                             <div>
                                 <h3 className="text-gray-700 font-bold">Billing</h3>
-                                <p className="text-gray-600">Choose how you'd like to billed and integrate your Tabby</p>
+                                <p className="text-gray-600">Choose how you would like to billed and integrate your Tabby</p>
                             </div>
                         </div>
                     </Link>

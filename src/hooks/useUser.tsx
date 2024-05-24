@@ -42,28 +42,28 @@ export const MyUserContextProvider = (props: Props) => {
 			.in("status", ["trialing", "active"])
 			.single();
 
-	useEffect(() => {
-		if (user && !isLoadingData && !userDetails && !subscription) {
-			setIsloadingData(true);
-			Promise.allSettled([getUserDetails(), getSubscription()]).then(
-				(results) => {
-					const userDetailsPromise = results[0];
-					const subscriptionPromise = results[1];
+	// useEffect(() => {
+	// 	if (user && !isLoadingData && !userDetails && !subscription) {
+	// 		setIsloadingData(true);
+	// 		Promise.allSettled([getUserDetails(), getSubscription()]).then(
+	// 			(results) => {
+	// 				const userDetailsPromise = results[0];
+	// 				const subscriptionPromise = results[1];
 
-					if (userDetailsPromise.status === "fulfilled")
-						setUserDetails(userDetailsPromise.value.data as UserDetails);
+	// 				if (userDetailsPromise.status === "fulfilled")
+	// 					setUserDetails(userDetailsPromise.value.data as UserDetails);
 
-					if (subscriptionPromise.status === "fulfilled")
-						setSubscription(subscriptionPromise.value.data as Subscription);
+	// 				if (subscriptionPromise.status === "fulfilled")
+	// 					setSubscription(subscriptionPromise.value.data as Subscription);
 
-					setIsloadingData(false);
-				}
-			);
-		} else if (!user && !isLoadingUser && !isLoadingData) {
-			setUserDetails(null);
-			setSubscription(null);
-		}
-	}, [user, isLoadingUser]);
+	// 				setIsloadingData(false);
+	// 			}
+	// 		);
+	// 	} else if (!user && !isLoadingUser && !isLoadingData) {
+	// 		setUserDetails(null);
+	// 		setSubscription(null);
+	// 	}
+	// }, [user, isLoadingUser]);
 
 	const value = {
 		accessToken,
