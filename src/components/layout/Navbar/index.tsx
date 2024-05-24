@@ -3,6 +3,7 @@ import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import { useState } from "react";
+import Image from 'next/image';
 
 const links = [
 	// {
@@ -53,7 +54,7 @@ const Navbar = () => {
 					aria-label="Company"
 					title="Company"
 					className="inline-flex items-center">
-					<img src="/Jazaa.png" alt="Company Logo" style={{ maxWidth: '150px', maxHeight: '100px' }}></img>
+					<Image src="/Jazaa.png" alt="Company Logo" width={150} height={100}></Image>
 				</Link>
 				<ul className="hidden items-center gap-12 lg:flex">
 					{links.map((link) => (
