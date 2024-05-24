@@ -84,6 +84,7 @@ export default function Preferences() {
                 .select('*')
                 .eq('customer_name', uniqueIdentifier); // Adjust the column name ('customer_id') as per your database schema
 
+
               if (fetchError) {
                 console.error('Error fetching existing rows:', fetchError);
                 continue;
@@ -92,14 +93,7 @@ export default function Preferences() {
               if (existingRows.length === 0) {
                 // Row does not exist, proceed to insert
                 const { error: insertError } = await supabaseClient.from('customer-visits').insert([rowWithBusiness]);
-                
-                await fetch('https://localhost:3000/api/send-message', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
+                console.log(rowWithBusiness);   
                 
                 if (insertError) {
                   console.error('Error inserting row:', insertError);
