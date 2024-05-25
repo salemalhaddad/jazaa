@@ -1,0 +1,9 @@
+{
+    "routes": [
+      {
+        "src": "/dashboard/preferences",
+        "dest": "/dashboard/preferences"
+      }
+    ]
+  }
+  
