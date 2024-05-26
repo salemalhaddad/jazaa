@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -25,12 +24,12 @@ export async function POST() {
           },
         }
       )
-    
+
     try {
         const { data, error } = await supabase
         .from('customer-visits')
         .select()
-       
+
         console.log(error)
         if (data) {
         for (const row of data) {
@@ -55,14 +54,14 @@ export async function POST() {
                         }
                     }, {
                         headers: {
-                            'Authorization': `Bearer EAANZC1exRZBM8BOwPADryQ3oxVDtbiZCvt7LPjeJebUEBfUwXcraayCQZA0EIEyLC8nZCL4p7ZAbzFNqDvZBvzf0NZAy5bzObMa1gjaqvZC8BWDYxme5D9p42FUpl8LvZAnFoya5YDzUxz6oSZCcximx2GSuZAJJbfeOAown1w7LxOdpJheeOtZAZCxUE08jEEQRthzr9QhrQOSnRvykEG0T6rlVq6IyNcdIAZD`, // Replace YOUR_ACCESS_TOKEN with your actual access token
+                            'Authorization': `Bearer EAANZC1exRZBM8BOylZA1H1ODosU1sNOLOHFmLy6mG4kwwoQs0KZA8OccleKGgLjR1OVKpqZCcXVQAbCBUWWrV2AdfNhurlovZCUdjvZBiHoP150RJWHp8PsHWJgOIhH9trUuaucvcltNsBP4adNj7we4TyMERIFS8DJt0xZBoFHAXFsYWAYv7imru1dJJzY1TfMZBTEOZAxw04whKz3pn5dDdBU1jKUNAZD`, // Replace YOUR_ACCESS_TOKEN with your actual access token
                             'Content-Type': 'application/json'
                         }
                     });
-    
+
                     console.log('Message sent successfully:', response.data);
                 };
-                
+
                 sendMessage().catch(console.error);
                 const { data, error } = await supabase
                 .from('customer-visits')
@@ -74,7 +73,7 @@ export async function POST() {
             }
         }
       }
-        
+
 
         return NextResponse.json({ data: 'Success', status: 200 });
 
