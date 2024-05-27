@@ -8,8 +8,8 @@ import UserProvider from "@/providers/UserProvider";
 const font = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "AI2SaaS",
-	description: "Create your own AI SaaS",
+	title: "Jazaa - Reward your recent visitors",
+	description: "Jazaa is helps automate rewarding your recent customers through WhatsApp",
 };
 
 export default async function RootLayout({
