@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 const Footer: React.FC = () => {
 	return (
 		<footer className="bg-white dark:bg-gray-900 pt-[120px]">

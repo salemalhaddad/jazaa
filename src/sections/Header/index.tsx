@@ -57,6 +57,9 @@ const Header = () => {
 			<p className="text-[#90A3BF] text-2xl leading-normal">
 				Your AI agent for <br /> rewarding your
 				recent customers through WhatsApp
+			<p className="text-[#90A3BF] text-2xl leading-normal">
+				Your AI agent for <br /> rewarding your
+				recent customers through WhatsApp
 			</p>
 			<div className="flex items-center justify-center gap-6 mb-[10px]">
 			<a href="https://jazaa.recatch.cc/meeting/utxnirulve">
@@ -66,6 +69,7 @@ const Header = () => {
 			<a href="mailto:hello@jazaa.co"><Button variant="secondary">Contact Us</Button></a>
 				{/* <Link href="/#pricing">
 					<Button variant="secondary">See Pricing</Button>
+				</Link> */}
 				</Link> */}
 			</div>
 
@@ -141,4 +145,5 @@ const Header = () => {
 };
 
 export default Header;
+
 
