@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from 'next/image';
 
-const links = [
+// const links = [
 	// {
 	// 	label: "Products",
 	// 	href: "/",
@@ -14,10 +14,10 @@ const links = [
 	// 	label: "Features",
 	// 	href: "#features",
 	// },
-	{
-		label: "How it Works",
-		href: "#hiw",
-	},
+	// {
+	// 	label: "How it Works",
+	// 	href: "#hiw",
+	// },
 	// {
 	// 	label: "Why Us",
 	// 	href: "#why-us"
@@ -30,7 +30,7 @@ const links = [
 	// 	label: "Company",
 	// 	href: "/",
 	// },
-];
+// ];
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,7 +57,7 @@ const Navbar = () => {
 					<Image src="/Jazaa.png" alt="Company Logo" width={150} height={100}></Image>
 				</Link>
 				<ul className="hidden items-center gap-12 lg:flex">
-					{links.map((link) => (
+					{/* {links.map((link) => (
 						<li key={link.label}>
 							<Link
 								href={link.href}
@@ -67,7 +67,7 @@ const Navbar = () => {
 								{link.label}
 							</Link>
 						</li>
-					))}
+					))} */}
 				</ul>
 				<div className="lg:flex items-center gap-4 hidden">
 					{!user ? (

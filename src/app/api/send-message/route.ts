@@ -76,7 +76,7 @@ export async function POST() {
 
                         const response = await axios.post('https://graph.facebook.com/v19.0/303726219482280/messages', {
                             messaging_product: "whatsapp",
-                            to: '971563811553', // This should be dynamically set based on your requirements
+                            to: "971506918436", // This should be dynamically set based on your requirements
                             type: "template",
                             template: {
                                 name: "renewal_reminder", // Adjust template name as needed

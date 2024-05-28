@@ -2,11 +2,9 @@ import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Inter } from "next/font/google";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
 
-const font = Inter({ subsets: ["latin"] });
 const font = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
