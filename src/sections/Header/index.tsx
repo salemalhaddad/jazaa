@@ -89,7 +89,7 @@ const Header = () => {
 				<div className=" bg-blue-60 p-2 transition-all duration-500 ease-in-out ">
 					{/* Dynamic Sentence */}
 					<div className="text-center bg-gradient-to-r from-white to-blue-60 border border-blue-500 p-4 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
-						<p className="text-lg font-semibold">I want to reach out to my customer <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> after their last visit with <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">{reward}</span> on <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">{product}</span>.</p>
+						<p className="text-lg font-semibold">I want to reach out to my customer <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">one month</span> after their last visit with <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">10% discount</span> on <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">Spa Package</span>.</p>
 					</div>
 				</div>
 			</div>
@@ -102,7 +102,7 @@ const Header = () => {
 					<h3 className="text-lg flex-grow font-semibold mb-2 ml-4">Get a reminder over WhatsApp</h3>
 				</div>
 				<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
-				<p className="flex-grow">Hi Ahmed, <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">{customerName}</span>'s last visit/purchase was  <span className="bg-blue-50 text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> ago for electronics. Would you like to send him/her a <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on their next <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">{product}</span> order? Below is a sample message you could use along with a payment link.</p>
+				<p className="flex-grow">Hi Ahmed, <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">Ali</span>&apos;s last visit/purchase was  <span className="bg-blue-50 text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">one month</span> ago for <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">Spa Package</span>. Would you like to send him/her a <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">10% discount</span> on their next <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">Spa Package</span> order? Below is a sample message you could use along with a payment link.</p>
 				</div>
 			</div>
 			<MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90 md:rotate-0 text-5xl mx-auto" />
@@ -114,7 +114,7 @@ const Header = () => {
 				</div>
 
 				<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
-				<p className="mt-1">Hi <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">{customerName}</span> 👋, it&apos;s been <span className="bg-blue-50 text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> since your last visit! Come back for a session and get <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next purchase of <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">{product}</span>. <br></br>  <br></br>  Offer is only valid for the next 24 hours so you can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a> <br></br>  <br></br> Let us know if you have any questions!</p>
+				<p className="mt-1">Hi <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">Ali</span> 👋, it&apos;s been <span className="bg-blue-50 text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">one month</span> since your last visit! Come back for a session and get <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">10% discount</span> on your next purchase of <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">Spa Package</span>. <br></br>  <br></br>  Offer is only valid for the next 24 hours so you can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a> </p>
 				</div>
 			</div>
 		</div>			
