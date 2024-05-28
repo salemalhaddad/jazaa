@@ -23,7 +23,6 @@ export default function Dashboard() {
     };
     const router = useRouter();
 
-	
 
     return (
         <div className="flex h-screen bg-gray-100">
@@ -38,15 +37,7 @@ export default function Dashboard() {
 
                 {/* Analytics Blocks */}
                 <div className="grid grid-cols-3 gap-4">
-                    <Link href="/analytics">
-                        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between h-48">
-                            <MdAssessment className="mb-2 text-3xl text-primary flex-shrink-0" />
-                            <div>
-                                <h3 className="text-gray-700 font-bold">Analytics</h3>
-                                <p className="text-gray-600">Insights on payment metrics, WhatsApp messages, and more!</p>
-                            </div>
-                        </div>
-                    </Link>
+                    
                     <Link href="/dashboard/preferences">
                         <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between h-48">
                             <MdSettings className="mb-2 text-3xl text-primary flex-shrink-0" />
@@ -61,7 +52,7 @@ export default function Dashboard() {
                             <MdCloudUpload className="mb-2 text-3xl text-primary flex-shrink-0" />
                             <div>
                                 <h3 className="text-gray-700 font-bold">Upload Customer Visit Data</h3>
-                                <p className="text-gray-600">Upload csv file of customer last visits</p>
+                                <p className="text-gray-600">Upload csv file of customer last visits to begin rewarding customers</p>
                             </div>
                         </div>
                     </Link>
@@ -74,6 +65,13 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </Link>
+                        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between h-48">
+                            <MdAssessment className="mb-2 text-3xl text-primary flex-shrink-0" />
+                            <div>
+                                <h3 className="text-gray-700 font-bold">Analytics (Coming Soon)</h3>
+                                <p className="text-gray-600">Insights on payment metrics, WhatsApp messages, and more!</p>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

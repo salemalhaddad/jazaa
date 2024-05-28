@@ -135,6 +135,13 @@ export default function Preferences() {
                     onChange={handleDataUpload}
                     className={cn("w-full", "px-4", "py-2", "text-lg", "border", "border-gray-300", "rounded")}
                 />
+                <a
+                  href="/sample.csv"
+                  download="sample.csv"
+                  className={cn("mt-4", "text-blue-500", "hover:underline")}
+                >
+                  Download Sample CSV
+                </a>
                 <div className="mt-4">
                     <button type="button" className="px-4 py-2 bg-primary text-white rounded" onClick={handleCsvUpload}>Upload</button>
                 </div>

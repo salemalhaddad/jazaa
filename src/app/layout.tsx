@@ -20,6 +20,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			    <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+				
 			<body className={font.className}>
 				<ThemeProvider
 					attribute="class"

@@ -41,7 +41,9 @@ export default function Preferences() {
         // Send the details to the database
         const { data, error } = await supabaseClient
             .from('jazaa-users')
-            .insert({user_name: user?.user_metadata.full_name, frequency: rewardFrequency, frequency_unit: rewardFrequencyUnit})
+            .update({frequency: rewardFrequency, frequency_unit: rewardFrequencyUnit})
+            .eq('user_name', user?.user_metadata.full_name)
+
 
         if (error) {
             console.log('Error inserting reward details:', error);

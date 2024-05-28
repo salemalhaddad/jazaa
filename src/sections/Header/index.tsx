@@ -5,6 +5,7 @@ import { PopupButton } from '@typeform/embed-react'
 import { useEffect, useState } from 'react'
 import { MdKeyboardArrowDown, MdNotifications, MdChat, MdWhatsapp } from 'react-icons/md'; // Added MdChat for WhatsApp icon
 import { MdArrowDownward, MdArrowRight, MdMessage, MdDiscount, MdPhone } from 'react-icons/md';
+import ReCatchEmbed from '@/components/ReCatchEmbed';
 
 const Header = () => {
 	interface NotificationMap {
@@ -27,6 +28,7 @@ const Header = () => {
 		{ name: "John" },
 	]
 
+
 	const [currentNotification, setCurrentNotification] = useState(notifications[0].message);
 	const [notificationIndex, setNotificationIndex] = useState(0);
 	const [customerName, setCustomerName] = useState(customerNames[0].name);
@@ -43,9 +45,9 @@ const Header = () => {
 				return nextIndex;
 			});
 	}, 4000);
-
-return () => clearInterval(intervalId);
-}, []);
+	return () => clearInterval(intervalId);
+	}, []);
+	
 	return (
 		<div className="w-full h-[90vh] flex items-center justify-center flex-col text-center relative gap-6 ">
 			<h1 className="text-7xl font-bold leading-snug">
@@ -57,7 +59,7 @@ return () => clearInterval(intervalId);
 				recent customers through WhatsApp
 			</p>
 			<div className="flex items-center justify-center gap-6 mb-[10px]">
-			<a href="https://form.typeform.com/to/S61rXVTl">
+			<a href="https://jazaa.recatch.cc/meeting/utxnirulve">
 				<Button variant="default">Get a Free Demo</Button>
 			</a>
 
@@ -67,6 +69,7 @@ return () => clearInterval(intervalId);
 				</Link> */}
 			</div>
 
+			<form className="jazaa-onboarding"></form>
 			{/* Notification box */}
 		<div className="md:ml-10 md:mt-0 md:flex md:flex-row grid grid-cols-1 md:grid-cols-3 items-center m-10 ">
 			<div className="flex flex-col bg-white rounded-xl shadow-lg p-4 text-gray-800 w-full ">
@@ -120,7 +123,7 @@ return () => clearInterval(intervalId);
 						<h3 className="text-lg font-semibold mb-1 ml-4">Automated WhatsApp message to customer</h3>
 					</div>
 					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
-					<p className="mt-1">Hi <span className="bg-white text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">{customerName}</span> 👋, it&apos;s been <span className="bg-white text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> since your last visit! Come back for a session and get <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. <br></br>  <br></br>  Offer is only valid for the next 24 hours so you can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a> <br></br>  <br></br> Let us know if you have any questions!</p>
+					<p className="mt-1">Hi <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">{customerName}</span> 👋, it&apos;s been <span className="bg-blue-50 text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">{currentNotification}</span> since your last visit! Come back for a session and get <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">{reward}</span> on your next visit. <br></br>  <br></br>  Offer is only valid for the next 24 hours so you can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a> <br></br>  <br></br> Let us know if you have any questions!</p>
 					</div>
 				</div>
 			</div>			
