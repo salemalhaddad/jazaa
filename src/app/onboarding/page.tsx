@@ -4,6 +4,8 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
 import { MdArrowDownward } from "react-icons/md";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+const stripe = require('stripe')('sk_test_51P3i8oKbPDDfN8PAbN32OCpqZtVldVhtQkfAodehZSTmrsR3XXsz6MXflX0hB8mUlQv1vh11YxNxlLgOgRHIgvzv00tJrjPPd0');
+
 
 const Onboarding = () => {
     const supabaseClient = useSupabaseClient();
@@ -80,9 +82,27 @@ const Onboarding = () => {
 			const { data, error } = await supabaseClient.auth.updateUser({
 				data: { full_name: userName }
 			})
-            router.push('/dashboard');
+            const account = await stripe.accounts.create({
+                country: 'AE',
+                business_type: 'company',
+                type: 'standard',
+                email: user?.user_metadata.email,
+                company: {
+                    name: businessName
+                }
+              });
+
+              const accountLink = await stripe.accountLinks.create({
+                account: account.id,
+                refresh_url: 'https://jazaa.co/sign-in',
+                return_url: 'https://jazaa.co/dashboard',
+                type: 'account_onboarding',
+              });
+            router.push(accountLink.url);
         }
     };
+
+    
 
     return (
         <div className="grid grid-cols-2 items-center min-h-screen">
@@ -94,7 +114,7 @@ const Onboarding = () => {
                         <MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
                         <p className="text-blue-300 mb-4">Step 2: Enter your details </p>
                         <MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
-                        <p className="text-gray-300">Step 3: Connect to WhatsApp Business Platform</p>
+                        <p className="text-gray-300">Step 3: Connect Stripe for Payments</p>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,7 @@ import Sidebar  from "@/components/layout/Sidebar";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FaWhatsapp } from "react-icons/fa";
+import { Button } from '@/components/ui/button';
 
 export default function Dashboard() {
     const { session } = useSessionContext();
@@ -34,6 +35,26 @@ export default function Dashboard() {
                     <h1 className="text-lg font-bold">Welcome to Your Dashboard, {user?.user_metadata.full_name?.split(' ')[0]}!</h1>
                     <p>Heres whats happening with your projects today!</p>
                 </div>
+
+                {!user ? (
+						<>
+							{/* <Button variant="ghost">
+								<Link href="/sign-in">Login</Link>
+							</Button> */}
+							<a href="https://form.typeform.com/to/S61rXVTl">
+			                	<Button variant="default">Get Demo</Button>
+			                </a>
+						</>
+					) : (
+						<>
+							<Button variant="ghost">
+								<Link href="/dashboard">Dashboard</Link>
+							</Button>
+							<Button variant="default" onClick={handleLogout}>
+								Logout
+							</Button>
+						</>
+					)}
 
                 {/* Analytics Blocks */}
                 <div className="grid grid-cols-3 gap-4">
