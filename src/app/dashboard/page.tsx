@@ -13,6 +13,13 @@ import { Button } from '@/components/ui/button';
 export default function Dashboard() {
     const { session } = useSessionContext();
     const user = session?.user;
+    const router = useRouter();
+
+    if (!user) {
+        router.push('/')
+    }
+
+    
 
     const supabaseClient = useSupabaseClient();
     
@@ -22,7 +29,6 @@ export default function Dashboard() {
             console.log(error);
         }
     };
-    const router = useRouter();
 
 
     return (
@@ -36,25 +42,6 @@ export default function Dashboard() {
                     <p>Heres whats happening with your projects today!</p>
                 </div>
 
-                {!user ? (
-						<>
-							{/* <Button variant="ghost">
-								<Link href="/sign-in">Login</Link>
-							</Button> */}
-							<a href="https://form.typeform.com/to/S61rXVTl">
-			                	<Button variant="default">Get Demo</Button>
-			                </a>
-						</>
-					) : (
-						<>
-							<Button variant="ghost">
-								<Link href="/dashboard">Dashboard</Link>
-							</Button>
-							<Button variant="default" onClick={handleLogout}>
-								Logout
-							</Button>
-						</>
-					)}
 
                 {/* Analytics Blocks */}
                 <div className="grid grid-cols-3 gap-4">

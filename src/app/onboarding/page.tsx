@@ -4,8 +4,11 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
 import { MdArrowDownward } from "react-icons/md";
 import { useSessionContext } from "@supabase/auth-helpers-react";
-const stripe = require('stripe')('sk_test_51P3i8oKbPDDfN8PAbN32OCpqZtVldVhtQkfAodehZSTmrsR3XXsz6MXflX0hB8mUlQv1vh11YxNxlLgOgRHIgvzv00tJrjPPd0');
+import Stripe from 'stripe';
 
+const stripe = new Stripe('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', {
+    apiVersion: '2023-08-16', // Use the latest Stripe API version
+  });
 
 const Onboarding = () => {
     const supabaseClient = useSupabaseClient();
@@ -98,6 +101,7 @@ const Onboarding = () => {
                 return_url: 'https://jazaa.co/dashboard',
                 type: 'account_onboarding',
               });
+              
             router.push(accountLink.url);
         }
     };

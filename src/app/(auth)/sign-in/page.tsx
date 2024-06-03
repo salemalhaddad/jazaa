@@ -48,7 +48,7 @@ const SignIn = () => {
 						<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
 						<p className="text-gray-300 mb-4">Step 2: Enter your details </p>
 						<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
-						<p className="text-gray-300">Step 3: Connect to Stripe for Payments</p>
+						<p className="text-gray-300">Step 3: Connect Stripe for Payments</p>
 					</div>
 				</div>
 			</div>
