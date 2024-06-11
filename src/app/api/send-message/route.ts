@@ -42,7 +42,7 @@ export async function POST() {
         if (data) {
             for (const row of data) {
                 const current_customer = row.customer_name;
-                const lastVisitDate = new Date('04-20-2024'); // Use the actual date from the database
+                const lastVisitDate = new Date(row.last_visit_date); // Use the actual date from the database
                 const currentDate = new Date();
                 const differenceInDays = Math.round(((currentDate.getTime() - lastVisitDate.getTime()) / (1000 * 3600 * 24)) * 100) / 100;
 
