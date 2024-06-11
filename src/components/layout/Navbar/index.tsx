@@ -70,11 +70,14 @@ const Navbar = () => {
 					))} */}
 				</ul>
 				<div className="lg:flex items-center gap-4 hidden">
-					{!user ? (
+				<a href="https://form.typeform.com/to/S61rXVTl">
+				<Button variant="default">Get Demo</Button>
+			</a>
+					{/* {!user ? (
 						<>
-							{/* <Button variant="ghost">
+							<Button variant="ghost">
 								<Link href="/sign-in">Login</Link>
-							</Button> */}
+							</Button>
 							<a href="https://form.typeform.com/to/S61rXVTl">
 				<Button variant="default">Get Demo</Button>
 			</a>
@@ -88,7 +91,7 @@ const Navbar = () => {
 								Logout
 							</Button>
 						</>
-					)}
+					)} */}
 				</div>
 				<div className="lg:hidden">
 					<button
