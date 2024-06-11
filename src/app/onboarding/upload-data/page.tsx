@@ -158,7 +158,10 @@ export default function Preferences() {
         {/* Upload CSV Content */}
         <div className="flex-1 p-10">
             <h2 className={cn("text-2xl", "font-bold", "mb-4")}>Upload Customer Visit Data</h2>
-            <p className={cn("text-md", "mb-4", "text-red-600")}>Please ensure the CSV file contains columns for customer name, WhatsApp number, last visit time (MM/DD/YYYY), and the service/product they paid for.</p>
+            <div className="flex flex-col">
+              <p className={cn("text-md", "mb-4", "text-red-600")}>Please ensure the CSV file contains columns for customer name, WhatsApp number, last visit time (MM/DD/YYYY), and the service/product they paid for.</p>
+              
+            </div>
             <div className="flex flex-col ">
                 <label className={cn("text-lg", "font-medium", "mb-2")} htmlFor="uploadCsv">Upload CSV File</label>
                 <input
@@ -168,6 +171,7 @@ export default function Preferences() {
                     onChange={handleDataUpload}
                     className={cn("w-full", "px-4", "py-2", "text-lg", "border", "border-gray-300", "rounded")}
                 />
+                <a href="/customer_visits_sample.csv" download className={cn("text-md", "underline", "text-blue-600", "hover:text-blue-800")}>Download a sample CSV file</a>
                 <div className="mt-4">
                     <button type="button" className="px-4 py-2 bg-primary text-white rounded" onClick={handleCsvUpload}>Upload</button>
                 </div>
