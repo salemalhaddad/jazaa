@@ -1,0 +1,27 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Alter the column type to text
+ALTER TABLE "customer-visits" ALTER COLUMN offering_amount TYPE text;
+
+-- Encrypt the offering_amount for rows with last_visit = '2022-12-24'
+UPDATE "customer-visits"
+SET offering_amount = CASE
+                         WHEN last_visit = '2022-12-24' THEN pgp_sym_decrypt(offering_amount::bytea, 'iamtesting')::text
+                         ELSE offering_amount
+                      END;
+
+
+-------
+
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- Alter the column type to text
+ALTER TABLE "customer-visits" ALTER COLUMN offering_amount TYPE text;
+
+-- Encrypt the offering_amount for rows with last_visit = '2022-12-24'
+UPDATE "customer-visits"
+SET offering_amount = CASE
+                         WHEN last_visit = '2022-12-24' THEN pgp_sym_encrypt(offering_amount::text, 'iamtesting')::text
+                         ELSE offering_amount
+                      END;

@@ -29,18 +29,7 @@ export default function Preferences() {
         setUploadSuccess(false); // Reset upload success state on new file selection
     }
 
-    const sendMessage = async () => {
-        const response = await fetch('/api/sendMessage', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // You can pass any required data in the body
-        });
     
-        const data = await response.json();
-        console.log(data);
-      };
 
 
     const handleCsvUpload = async () => {
@@ -52,7 +41,12 @@ export default function Preferences() {
 
         interface CsvRow {
           customer_name: string;
-          
+          whatsapp_no: string;
+          last_visit_date: string;
+          offering_name: string;
+          offering_price: number;
+          discount: string;
+          offering_amount: string;
         }
         
       
@@ -75,24 +69,25 @@ export default function Preferences() {
                   continue;
                 }
                  // Add 'business' column to each row
-              let businessName = "DefaultBusinessName"; // Fallback business name
-              const { data: userData, error: userError } = await supabaseClient
-                .from('jazaa-users')
-                .select('business_name')
-                .eq('user_name', user?.user_metadata.full_name)
-                .single();
+              // let businessName = "DefaultBusinessName"; // Fallback business name
+              // const { data: userData, error: userError } = await supabaseClient
+              //   .from('jazaa-users')
+              //   .select('business_name')
+              //   .eq('user_name', user?.user_metadata.full_name)
+              //   .single();
 
-              if (!userError && userData) {
-                businessName = userData.business_name;
-              }
+              // if (!userError && userData) {
+              //   businessName = userData.business_name;
+              // }
               
-              const rowWithBusiness = { ...row, business: businessName };
+              const rowWithBusiness = { ...row, business: user?.user_metadata.full_name };
 
               // Check if the row already exists in the database
               const { data: existingRows, error: fetchError } = await supabaseClient
                 .from('customer-visits')
                 .select('*')
                 .eq('customer_name', uniqueIdentifier); // Adjust the column name ('customer_id') as per your database schema
+
                 if (fetchError) {
                   console.error('Error fetching existing rows:', fetchError);
                   continue;
@@ -100,8 +95,46 @@ export default function Preferences() {
   
                 if (existingRows.length === 0) {
                   // Row does not exist, proceed to insert
-                  const { error: insertError } = await supabaseClient.from('customer-visits').insert([rowWithBusiness]);
-                  console.log(rowWithBusiness);   
+                  const { data: { user } } = await supabaseClient.auth.getUser()
+
+                                    
+                                
+                  // Encrypt the offering_price
+                  // const { data: encryptedOfferingPrice, error: encryptError } = await supabaseClient.rpc('pgp_sym_encrypt', {
+                  //   text: row.offering_price,
+                  //   key: 'iamtesting'
+                  // });
+
+                  // if (encryptError) {
+                  //   console.error('Error encrypting offering price:', encryptError);
+                  //   return;
+                  // }
+
+                  // Insert the row
+                  const { error: insertError } = await supabaseClient
+                    .from('customer-visits')
+                    .insert([
+                      {
+                        customer_name: row.customer_name,
+                        whatsapp_no: row.whatsapp_no,
+                        last_visit_date: row.last_visit_date,
+                        offering_name: row.offering_name,
+                        offering_price: row.offering_price,
+                        discount: row.discount,
+                        business: user?.user_metadata.full_name
+                      }
+                    ]);
+
+
+                  
+                    const { data, error: updateError } = await supabaseClient
+                    .rpc('encrypt_price', { last_date: row.last_visit_date })
+
+                  if (updateError) {
+                    console.error('Error updating offering_amount:', updateError)
+                  } else {
+                    console.log('Column offering_amount updated successfully.')
+                  }
                   
                   if (insertError) {
                     console.error('Error inserting row:', insertError);
@@ -121,7 +154,7 @@ export default function Preferences() {
 
     return (
         <div className="flex h-screen bg-gray-100">
-        <Sidebar />
+        {/* <Sidebar /> */}
         {/* Upload CSV Content */}
         <div className="flex-1 p-10">
             <h2 className={cn("text-2xl", "font-bold", "mb-4")}>Upload Customer Visit Data</h2>

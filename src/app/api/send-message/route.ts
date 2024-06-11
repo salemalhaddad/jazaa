@@ -54,13 +54,16 @@ export async function POST() {
                         
                         // Create a new product
                         const product = await stripe.products.create({
-                            name: row.offering,
-                            description: 'You have been awarded a 10% discount'
+                            name: row.offering_name,
+                            description: `You have been awarded a ${row.discount} discount from ${row.business}`
                         });
+
+                        const { data, error: updateError } = await supabase
+                        .rpc('decrypt_price', { last_date: row.last_visit_date })
 
                         // Create a price for the product
                         const price = await stripe.prices.create({
-                            unit_amount: 3500,
+                            unit_amount:  data[0]?.decrypted_offering_price*100*(1 - (data[0]?.decrypted_offering_price*row.discount)),
                             currency: 'aed', // or any other currency you use
                             product: product.id,
                         });
@@ -76,10 +79,10 @@ export async function POST() {
 
                         const response = await axios.post('https://graph.facebook.com/v19.0/303726219482280/messages', {
                             messaging_product: "whatsapp",
-                            to: "971506918436", // This should be dynamically set based on your requirements
+                            to: "971563811553", // This should be dynamically set based on your requirements
                             type: "template",
                             template: {
-                                name: "renewal_reminder", // Adjust template name as needed
+                                name: "business_reminder", // Adjust template name as needed
                                 language: {
                                     code: "en"
                                 },
@@ -88,7 +91,11 @@ export async function POST() {
                                     type: "body",
                                     parameters: [{
                                       type: "text",
-                                      text: `${current_customer}`
+                                      text: row.business
+                                    },
+                                    {
+                                      type: "text",
+                                      text: row.customer_name
                                     },
                                     {
                                       type: "text",
@@ -96,12 +103,17 @@ export async function POST() {
                                     },
                                     {
                                       type: "text",
-                                      text: "10%"
+                                      text: row.offering_name
+                                    },
+                                    {
+                                      type: "text",
+                                      text: row.discount
                                     },
                                     {
                                       type: "text",
                                       text: paymentLink.url
                                     }
+
                                   ]
                                   }
 
@@ -109,7 +121,7 @@ export async function POST() {
                             }
                         }, {
                             headers: {
-                                'Authorization': `Bearer EAANZC1exRZBM8BOZCND38In0n6lU5j0FqeC5dzfjkIZA0mdD9ZCZBwoR2I0XePTS830XJS7A0oZB8JoNY6a8aJxbP35nCvAlXrrHV7YI94OaPslxEDxx4Sj4aLWOsWWp3u21HYI58Wn8hbZBVgzh1T65V4aJ50SetkVgjrurqZAyIttTkATJvLM7IGTj5L1uMGBMWviie3ZAvkoyoCmFEy9jeCxu2ZAYfoZD`, // Replace YOUR_ACCESS_TOKEN with your actual access token
+                                'Authorization': `Bearer EAANZC1exRZBM8BO1kdNspMWZBGZBBBDacl1fhbwKD3WGn4BQvDBkfq6z5K0VZBYF7nWmrpw5MhRkbwhaMMiupNQvKvos4RsZCCOvgU63QyyXfd1AD7K22VOI3D0NgekzGS95qRFuVV0J6ueZACkEF533KOl25GjpHolWxeNuLwmHfoPrZAdhMiCM32ZBxeTNZCRkgEhOnraM9fQDhLrUinqEQH54PgxT8h`, // Replace YOUR_ACCESS_TOKEN with your actual access token
                                 'Content-Type': 'application/json'
                             }
                         });
@@ -117,13 +129,19 @@ export async function POST() {
                       console.log('Message sent successfully:', response.data);
                   };
 
-                  await sendMessage().catch(MessageError => console.error('Error sending message:', MessageError));
-                  
-                  await supabase
-                  .from('customer-visits')
-                  .update({ message_sent: true })
-                  .eq('customer_name', current_customer)
-                  .select();
+                  try {
+                    await sendMessage();
+                    await supabase
+                    .from('customer-visits')
+                    .update({ message_sent: true })
+                    .eq('customer_name', current_customer)
+                    .select();
+                    console.log('Message sent successfully!');
+                } catch (MessageError) {
+                    console.error('Error sending message:', MessageError);
+                }
+                                  
+                 
 
                 }
             }

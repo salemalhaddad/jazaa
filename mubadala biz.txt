@@ -1,0 +1,15 @@
+ 
+
+While the period before the funding was focused more on designing, engineering, and testing the robotic system, the phase after the funding will be more on tailoring the robot for our end-users'--corporations, environmental entities, and institutions—needs. This includes constructing a holistic long-term product vision that has sensible business value. Apart from registering for a trade license, there will be extensive user interviews with potential stakeholders to best serve their needs. Our plan is not to offer a product that can be designed once and sold but built multiple times for multiple use cases, as each potential client will have his own unique need. This iterative process is already present in successful companies like Gecko Robotics and Palantir Technologies. Further down the line, and as the product matures with a customer base, further funding will be inevitable for hiring and expansion, which will require us to approach venture funds. 
+
+ 
+
+As with the product vision, a product roadmap will be constructed to plan for the different features the team will deploy throughout the year (on a quarterly basis). An example of this would be in quarter one, feature A will be built and deployed. In quarter two, feature B and C will be deployed. At times, some quarters will require more rapid deployment. This process of deploying features on a quarterly basis helps build product development momentum. 
+
+ 
+
+Successful technology companies like Gecko Robotics and Palantir Technologies use bespoke software development for their enterprise users. Customized software solutions can also be beneficial to AquaMate. Because our clients are enterprise or institutional, tailored solutions with rapid development cycles is the best approach for successful delivery.  
+
+ 
+
+As the product reaches traction, more responsibilities like hiring engineers and enhancing product strategy will arise. And to best prepare and meet such responsibilities, venture capital will be required. Engineers, especially those specializing in robotics, have increasingly high wages. Moreover, working on expanding non-engineering related tasks like expanding the business, introducing new products, and reaching out to new clients also require capital. We could approach venture funds from the Middle East to help fund our venture, while giving up equity. But before that happens, a clear exit strategy should be clearly outlined. 

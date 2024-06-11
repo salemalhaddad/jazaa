@@ -34,6 +34,7 @@ const Onboarding = () => {
 
     const handleBusinessNameChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         setBusinessName(e.target.value);
+
     };
 
     const handleBusinessTypeChange = (e: { target: { value: SetStateAction<string>; }; }) => {
@@ -78,31 +79,53 @@ const Onboarding = () => {
                 }
             ]);
 
+           
+
+            
+
+
         if (error) {
             console.log("Error in onboarding page", error);
         } else {
             console.log("Data insertion successful: ");
-			const { data, error } = await supabaseClient.auth.updateUser({
-				data: { full_name: userName }
-			})
-            const account = await stripe.accounts.create({
-                country: 'AE',
-                business_type: 'company',
-                type: 'standard',
-                email: user?.user_metadata.email,
-                company: {
-                    name: businessName
-                }
-              });
 
-              const accountLink = await stripe.accountLinks.create({
-                account: account.id,
-                refresh_url: 'https://jazaa.co/sign-in',
-                return_url: 'https://jazaa.co/dashboard',
-                type: 'account_onboarding',
-              });
+            const { error: updateUserError } = await supabaseClient.auth.updateUser({
+				data: { full_name: businessName }
+			});
+
+            console.log('business name 1: ', businessName);
+
+			const { data, error } = await supabaseClient.auth.updateUser({
+				data: { full_name: businessName }
+			})
+
+            if (error) {
+                console.log('not working')
+            }
+            else {
+                console.log('business name 2: ',  data.user.user_metadata.full_name, 'and data is: ', data);
+            }
+
+        
+
+            // const account = await stripe.accounts.create({
+            //     country: 'AE',
+            //     business_type: 'company',
+            //     type: 'standard',
+            //     email: user?.user_metadata.email,
+            //     company: {
+            //         name: businessName
+            //     }
+            //   });
+
+            //   const accountLink = await stripe.accountLinks.create({
+            //     account: account.id,
+            //     refresh_url: 'https://jazaa.co/sign-in',
+            //     return_url: 'https://jazaa.co/dashboard',
+            //     type: 'account_onboarding',
+            //   });
               
-            router.push(accountLink.url);
+            router.push('/onboarding/upload-data');
         }
     };
 
