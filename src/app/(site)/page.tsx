@@ -12,7 +12,7 @@ import WhyUs from "@/sections/WhyUs";
 export default function Home() {
 	return (
 		<main>
-			<div className="bg-[#0D121F] px-[100px] text-white">
+			<div className="bg-[#0D121F] px-[20px] md:px-[90px] text-white">
 				<Navbar />
 				<Header />
 			</div>

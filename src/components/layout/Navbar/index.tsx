@@ -54,7 +54,7 @@ const Navbar = () => {
 					aria-label="Company"
 					title="Company"
 					className="inline-flex items-center">
-					<Image src="/Jazaa.png" alt="Company Logo" width={150} height={100}></Image>
+					<Image src="/Jazaa.png" alt="Company Logo" width={90} height={100}></Image>
 				</Link>
 				<ul className="hidden items-center gap-12 lg:flex">
 					{/* {links.map((link) => (
@@ -138,9 +138,9 @@ const Navbar = () => {
 												<rect x="14" y="1" width="7" height="6" />
 												<rect x="14" y="11" width="7" height="12" />
 											</svg>
-											<span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
+											{/* <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
 												Company
-											</span>
+											</span> */}
 										</Link>
 									</div>
 									<div>
@@ -160,7 +160,7 @@ const Navbar = () => {
 								</div>
 								<nav>
 									<ul className="space-y-4">
-										<li>
+										{/* <li>
 											<Link
 												href="/"
 												aria-label="Our product"
@@ -195,7 +195,7 @@ const Navbar = () => {
 												className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400">
 												About us
 											</Link>
-										</li>
+										</li> */}
 										<Button variant="default">Sign up</Button>
 									</ul>
 								</nav>

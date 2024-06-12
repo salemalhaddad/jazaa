@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 const Footer: React.FC = () => {
 	return (
 		<footer className="bg-white dark:bg-gray-900 ">
-			<div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+			<div className="mx-auto w-full lg:py-5">
 				<div className="flex flex-col items-center justify-center">
 					<a href="/" className="flex items-center mb-4">
 						<span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
