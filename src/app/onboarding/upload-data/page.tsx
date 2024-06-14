@@ -5,23 +5,41 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from "next/navigation";
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import Papa from 'papaparse';
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 export default function Preferences() {
-  const [customerDataFile, setCustomerDataFile] = useState<File | null>(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const supabaseClient = useSupabaseClient();
-  const { session } = useSessionContext();
-  const user = session?.user;
-  const router = useRouter();
+	const [customerDataFile, setCustomerDataFile] = useState<File | null>(null);
+	const [uploadSuccess, setUploadSuccess] = useState(false);
+	const [frequency, setRewardFrequency] = useState("");
+	const [businessName, setBusinessName] = useState("");
+	const [frequency_unit, setRewardFrequencyUnit] = useState("");
 
-  const handleDataUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setCustomerDataFile(e.target.files[0]);
-    } else {
-      setCustomerDataFile(null);
-    }
-    setUploadSuccess(false); // Reset upload success state on new file selection
-  }
+	const supabaseClient = useSupabaseClient();
+	const { session } = useSessionContext();
+	const user = session?.user;
+	const router = useRouter();
+
+	const handleDataUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+	if (e.target.files) {
+		setCustomerDataFile(e.target.files[0]);
+	} else {
+		setCustomerDataFile(null);
+	}
+	setUploadSuccess(false); // Reset upload success state on new file selection
+	}
+
+	const handleRewardFrequencyChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+		setRewardFrequency(e.target.value);
+	};
+
+	const handleRewardFrequencyUnitChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+		setRewardFrequencyUnit(e.target.value);
+	};
+
+	const handleBusinessNameChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+        setBusinessName(e.target.value);
+
+    };
 
   const handleCsvUpload = async () => {
     const file = customerDataFile;
@@ -80,7 +98,7 @@ export default function Preferences() {
                     offering_name: row.offering_name,
                     offering_price: row.offering_price,
                     discount: row.discount,
-                    business: user?.user_metadata.full_name
+                    business: businessName
                   }
                 ]);
 
@@ -106,15 +124,60 @@ export default function Preferences() {
         }
       },
     });
+
+
+
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Upload Customer Visit Data</h2>
-        <p className="text-left text-gray-600 mb-4">Ensure the CSV file contains columns for customer name, WhatsApp number, last visit date, and the service/product they paid for. You can download a sample CSV file below.</p>
+		<h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Fill in the required details</h2>
+
         <div className="mb-4">
-          <label className="block text-lg font-medium text-gray-700 mb-2 mt-8" htmlFor="uploadCsv">Upload CSV File</label>
+            <label htmlFor="businessName" value={businessName} onChange={handleBusinessNameChange} className="block text-lg font-medium text-gray-700 mb-2 mt-8">Enter business name</label>
+            <input
+                type="text"
+                name="businessName"
+                id="businessName"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                placeholder="Enter your business name, ex Fitness Players LLC"
+                required
+            />
+        </div>
+        <div className="mb-4">
+            <label htmlFor="rewardFrequency" className="block text-lg font-medium text-gray-700 mb-2">How often do you want to reward your customers?</label>
+            <div className="flex items-center space-x-2">
+                <input
+                    type="number"
+					id="rewardFrequency"
+					value={frequency}
+					onChange={handleRewardFrequencyChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                    placeholder="Enter frequency"
+                    required
+                />
+                <select
+					id="rewardFrequencyUnit"
+					value={frequency_unit}
+					onChange={handleRewardFrequencyUnitChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                    required
+                >
+                    <option value="" disabled selected>Select Frequency Unit</option>
+                    <option value="days">Per Day</option>
+                    <option value="weeks">Per Week</option>
+                    <option value="months">Per Month</option>
+                </select>
+            </div>
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-lg font-medium text-gray-700 mb-2 mt-2" htmlFor="uploadCsv">Upload CSV File</label>
+		  <div className="inline-block bg-blue-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
+		  	<IoIosInformationCircleOutline className="text-5xl" />
+            <p className="text-left text-gray-600">Ensure the file uploaded has the same format as showcased in the sample CSV file below.</p>
+          </div>
           <input
             type="file"
             id="uploadCsv"
@@ -122,6 +185,7 @@ export default function Preferences() {
             onChange={handleDataUpload}
             className="w-full px-4 py-2 border border-gray-300 rounded-md"
           />
+
           <a href="/customer_visits_sample.csv" download className="block text-left text-blue-600 mt-2 underline">Download a sample CSV file</a>
         </div>
         <button
@@ -136,3 +200,4 @@ export default function Preferences() {
     </div>
   );
 }
+

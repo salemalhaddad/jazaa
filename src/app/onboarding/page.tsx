@@ -23,7 +23,7 @@ const Onboarding = () => {
     const [frequency, setRewardFrequency] = useState("");
     const [frequency_unit, setRewardFrequencyUnit] = useState("");
     const [terms, setTerms] = useState(false);
-
+	
     useEffect(() => {
         console.log("Component mounted");
     }, []);
@@ -79,9 +79,9 @@ const Onboarding = () => {
                 }
             ]);
 
-           
 
-            
+
+
 
 
         if (error) {
@@ -106,7 +106,7 @@ const Onboarding = () => {
                 console.log('business name 2: ',  data.user.user_metadata.full_name, 'and data is: ', data);
             }
 
-        
+
 
             // const account = await stripe.accounts.create({
             //     country: 'AE',
@@ -124,12 +124,12 @@ const Onboarding = () => {
             //     return_url: 'https://jazaa.co/dashboard',
             //     type: 'account_onboarding',
             //   });
-              
+
             router.push('/onboarding/upload-data');
         }
     };
 
-    
+
 
     return (
         <div className="grid grid-cols-2 items-center min-h-screen">
