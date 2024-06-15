@@ -61,14 +61,20 @@ export async function POST() {
                         const { data, error: updateError } = await supabase
                         .rpc('decrypt_price', { last_date: row.last_visit_date })
 
-						console.log('decryption data: ', data)
 
-						console.log('update error: ', updateError)
+                        console.log('update error: ', updateError)
+
+                        let discount = row.discount
+                        let number = parseInt(discount.replace('%', ''));
+
+                        console.log('result is 1... ', data[0]?.decrypted_offering_price*(1 - number*0.01))
+
+                        console.log('result is... ', Math.round(data[0]?.decrypted_offering_price*(1 - number*0.01)))
 
 
                         // Create a price for the product
                         const price = await stripe.prices.create({
-                            unit_amount: data[0]?.decrypted_offering_price*100*(1 - (data[0]?.decrypted_offering_price*row.discount)),
+                            unit_amount: Math.round(data[0]?.decrypted_offering_price*100*(1 - number*0.01)),
                             currency: 'aed', // or any other currency you use
                             product: product.id,
                         });
@@ -126,7 +132,7 @@ export async function POST() {
                             }
                         }, {
                             headers: {
-                                'Authorization': `Bearer EAANZC1exRZBM8BO98sGvSx1sPET4L3ZC6efSaTQ0PQ4ZCZCatv0f3RrrUcw3OIviy0rEdfXjaDmSsgDUauBoIsrZAbZBfeQh6jJ8hu0wsZAgUZB0laSjmFbXBnhaLFQj1MBqEQCXIAzX3ZB8z41zVxRtJZChDeTauxjgQcQZCmfGNK63cZBZBl5f4wcthD3bSh7S0GxIiqxZBwEuJ50LGzJHmlzhAixw3REDC8ZD`, // Replace YOUR_ACCESS_TOKEN with your actual access token
+                                'Authorization': `Bearer EAANZC1exRZBM8BO2G8jQPnPTFMyFW5mXTXPPYvDWxodTXxdXoipZA54beJQCxmLcwK60BHss0UdYdKjU3ZA2WlVOyBFRV9ffE21A6TMirxB1mJuMNBxolb5gk1GhSbImZBzBbRwIVNdAEoQzZB7vS28uLNZB1lKcjDA5PHqj1NsTtmZCxadznNC01fmzZCEAG05VHOJZBZCk1OEtneClorDwxjRvdOQyRopxQZDZD`, // Replace YOUR_ACCESS_TOKEN with your actual access token
                                 'Content-Type': 'application/json'
                             }
                         });
