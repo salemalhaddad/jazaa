@@ -61,9 +61,14 @@ export async function POST() {
                         const { data, error: updateError } = await supabase
                         .rpc('decrypt_price', { last_date: row.last_visit_date })
 
+						console.log('decryption data: ', data)
+
+						console.log('update error: ', updateError)
+
+
                         // Create a price for the product
                         const price = await stripe.prices.create({
-                            unit_amount:  data[0]?.decrypted_offering_price*100*(1 - (data[0]?.decrypted_offering_price*row.discount)),
+                            unit_amount: data[0]?.decrypted_offering_price*100*(1 - (data[0]?.decrypted_offering_price*row.discount)),
                             currency: 'aed', // or any other currency you use
                             product: product.id,
                         });
@@ -121,7 +126,7 @@ export async function POST() {
                             }
                         }, {
                             headers: {
-                                'Authorization': `Bearer EAANZC1exRZBM8BO1kdNspMWZBGZBBBDacl1fhbwKD3WGn4BQvDBkfq6z5K0VZBYF7nWmrpw5MhRkbwhaMMiupNQvKvos4RsZCCOvgU63QyyXfd1AD7K22VOI3D0NgekzGS95qRFuVV0J6ueZACkEF533KOl25GjpHolWxeNuLwmHfoPrZAdhMiCM32ZBxeTNZCRkgEhOnraM9fQDhLrUinqEQH54PgxT8h`, // Replace YOUR_ACCESS_TOKEN with your actual access token
+                                'Authorization': `Bearer EAANZC1exRZBM8BO98sGvSx1sPET4L3ZC6efSaTQ0PQ4ZCZCatv0f3RrrUcw3OIviy0rEdfXjaDmSsgDUauBoIsrZAbZBfeQh6jJ8hu0wsZAgUZB0laSjmFbXBnhaLFQj1MBqEQCXIAzX3ZB8z41zVxRtJZChDeTauxjgQcQZCmfGNK63cZBZBl5f4wcthD3bSh7S0GxIiqxZBwEuJ50LGzJHmlzhAixw3REDC8ZD`, // Replace YOUR_ACCESS_TOKEN with your actual access token
                                 'Content-Type': 'application/json'
                             }
                         });
