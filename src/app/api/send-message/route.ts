@@ -51,7 +51,7 @@ export async function POST() {
               if (row.message_sent === false && differenceInDays >= 30) {
                       // Perform your action here
                       const sendMessage = async () => {
-                        
+
                         // Create a new product
                         const product = await stripe.products.create({
                             name: row.offering_name,
@@ -125,7 +125,7 @@ export async function POST() {
                                 'Content-Type': 'application/json'
                             }
                         });
-                      
+
                       console.log('Message sent successfully:', response.data);
                   };
 
@@ -140,8 +140,8 @@ export async function POST() {
                 } catch (MessageError) {
                     console.error('Error sending message:', MessageError);
                 }
-                                  
-                 
+
+
 
                 }
             }
