@@ -51,8 +51,7 @@ const Header = () => {
 					Double your repeat <br /> customers with Jazaa
 				</h1>
 				<p className="text-lg sm:text-xl lg:text-2xl text-[#90A3BF] leading-normal">
-					Your agent for <br /> rewarding your
-					recent customers through WhatsApp
+					Automate rewarding customers 1 day/week/month <br /> since their last visit or purchase.
 				</p>
 			</div>
 			<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
@@ -103,6 +102,16 @@ const Header = () => {
 					</div>
 				</div>
 			</div>
+
+			
+			{/* <div className="flex flex-wrap justify-center items-center gap-4 p-6 mb-7">
+				<h2 className="w-full text-center text-2xl font-semibold mb-4">Products We Integrate With</h2>
+				<div className="flex justify-center items-center gap-6">
+					<img src="/foodics.png" alt="Product 1 Logo" className="h-12 filter grayscale hover:grayscale-0 transition duration-300" />
+					<img src="/shopify.webp" alt="Product 2 Logo" className="h-12 filter grayscale hover:grayscale-0 transition duration-300" />
+				
+				</div>
+			</div> */}
 		</div>
 	);
 };

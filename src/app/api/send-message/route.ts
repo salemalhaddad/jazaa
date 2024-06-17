@@ -88,7 +88,7 @@ export async function POST() {
                           ],
                         });
 
-                        const response = await axios.post('https://graph.facebook.com/v19.0/324321154106179/messages', {
+                        const response = await axios.post(`https://graph.facebook.com/v19.0/${process.env.PHONE_ID}/messages`, {
                             messaging_product: "whatsapp",
                             to: row.whatsapp_no, // This should be dynamically set based on your requirements
                             type: "template",
@@ -110,7 +110,7 @@ export async function POST() {
                                     },
                                     {
                                       type: "text",
-                                      text: "1 month"
+                                      text: `${row.frequency} ${row.frequency_unit}`
                                     },
                                     {
                                       type: "text",
@@ -132,7 +132,7 @@ export async function POST() {
                             }
                         }, {
                             headers: {
-                                'Authorization': `Bearer EAANZC1exRZBM8BO2G8jQPnPTFMyFW5mXTXPPYvDWxodTXxdXoipZA54beJQCxmLcwK60BHss0UdYdKjU3ZA2WlVOyBFRV9ffE21A6TMirxB1mJuMNBxolb5gk1GhSbImZBzBbRwIVNdAEoQzZB7vS28uLNZB1lKcjDA5PHqj1NsTtmZCxadznNC01fmzZCEAG05VHOJZBZCk1OEtneClorDwxjRvdOQyRopxQZDZD`, // Replace YOUR_ACCESS_TOKEN with your actual access token
+                                'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`, // Replace YOUR_ACCESS_TOKEN with your actual access token
                                 'Content-Type': 'application/json'
                             }
                         });

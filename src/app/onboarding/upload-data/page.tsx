@@ -109,7 +109,9 @@ export default function Preferences() {
                     offering_name: row.offering_name,
                     offering_price: row.offering_price,
                     discount: row.discount,
-                    business: businessName
+                    business: businessName,
+                    frequency: frequency,
+                    frequency_unit: frequency_unit
                   }
                 ]);
 
