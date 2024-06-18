@@ -88,6 +88,10 @@ export async function POST() {
                           ],
                         });
 
+                        const wa_message = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
+                        const encodedMessage = encodeURIComponent(wa_message);
+                        const waMessageURL = `https://wa.me/?text=${encodedMessage}`;
+
                         const response = await axios.post(`https://graph.facebook.com/v19.0/${process.env.PHONE_ID}/messages`, {
                             messaging_product: "whatsapp",
                             to: row.whatsapp_no, // This should be dynamically set based on your requirements
@@ -122,7 +126,7 @@ export async function POST() {
                                     },
                                     {
                                       type: "text",
-                                      text: paymentLink.url
+                                      text: waMessageURL
                                     }
 
                                   ]

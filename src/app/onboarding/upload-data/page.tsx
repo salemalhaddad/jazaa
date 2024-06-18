@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSessionContext } from '@supabase/auth-helpers-react';
 import Papa from 'papaparse';
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { CiWarning } from "react-icons/ci";
 
 export default function Preferences() {
 	const [customerDataFile, setCustomerDataFile] = useState<File | null>(null);
@@ -16,10 +17,11 @@ export default function Preferences() {
 
 	const [frequency_unit, setRewardFrequencyUnit] = useState("");
 	const [terms, setTerms] = useState(false);
-
+	const [phoneNumber, setPhoneNumber] = useState("");
 	const supabaseClient = useSupabaseClient();
 	const { session } = useSessionContext();
 	const user = session?.user;
+
 	const router = useRouter();
 
 	const handleDataUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +52,10 @@ export default function Preferences() {
 	const handleTermsChange = (e: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
         setTerms(e.target.checked);
     };
+
+  const handlePhoneChange = (e: { target: { value: SetStateAction<string>; }; }) => {
+    setPhoneNumber(e.target.value);
+  };
 
   const handleCsvUpload = async () => {
     const file = customerDataFile;
@@ -164,9 +170,21 @@ export default function Preferences() {
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md">
 		<h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Fill in the required details</h2>
-
+        <div >
+            <label htmlFor="phoneNumber" className="block text-lg font-medium text-gray-700 mb-2 mt-8">Enter your WhatsApp number</label>
+            <input
+                type="tel"
+                name="phoneNumber"
+                id="phoneNumber"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                placeholder="Enter your phone number"
+                required
+            />
+        </div>
         <div className="mb-4">
-            <label htmlFor="businessName" className="block text-lg font-medium text-gray-700 mb-2 mt-8">Enter business name</label>
+            <label htmlFor="businessName" className="block text-lg font-medium text-gray-700 mb-2 mt-4">Enter business name</label>
             <input
                 type="text"
                 name="businessName"
@@ -222,12 +240,18 @@ export default function Preferences() {
             </div>
         </div>
 
+
+
         <div className="mb-4">
           <label className="block text-lg font-medium text-gray-700 mb-2 mt-2" htmlFor="uploadCsv">Upload Customer&apos;s Visits Data</label>
-		  <div className="inline-block bg-blue-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
-		  	<IoIosInformationCircleOutline className="text-5xl" />
-            <p className="text-left text-gray-600">Ensure the file uploaded has the same format as showcased in the sample CSV file below.</p>
+        <div className="inline-block bg-blue-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
+          <IoIosInformationCircleOutline className="text-5xl" />
+            <p className="text-left text-gray-600">File uploaded should have the same format as the sample file below.</p>
           </div>
+          <div className="inline-block bg-red-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
+            <CiWarning className="text-5xl text-red-500" />
+          <p className="text-left text-gray-600">All data is shown to the developer except <i>offering_price</i> column. It is encrypted and can only be shown to you.</p>
+        </div>
           <input
             type="file"
             id="uploadCsv"
@@ -238,6 +262,8 @@ export default function Preferences() {
 
           <a href="/customer_visits_sample.csv" download className="block text-left text-blue-600 mt-2 underline">Download a sample CSV file</a>
         </div>
+
+
 
 		<div className="flex items-start">
 			<div className="flex items-center h-5">
