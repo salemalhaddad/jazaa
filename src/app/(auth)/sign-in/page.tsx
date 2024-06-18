@@ -8,7 +8,8 @@ import {
 } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { MdArrowDownward } from "react-icons/md";
+import { MdArrowDownward, MdPersonAdd, MdCloudUpload } from "react-icons/md";
+import { IoMdLogIn } from "react-icons/io";
 
 const SignIn = () => {
 	const supabaseClient = useSupabaseClient();
@@ -18,7 +19,7 @@ const SignIn = () => {
 
 	const router = useRouter();
 
-	
+
 
 	// useEffect(() => {
 	// 	if (user) {
@@ -35,23 +36,11 @@ const SignIn = () => {
 	// 			}
 	// 		};
 	// 		fetchBusinessName();
-	// 	} 
+	// 	}
 	// }, [session, router, supabaseClient]);
 
 	return (
-		<div className="grid grid-cols-2 items-center min-h-screen">
-			<div className="w-full h-full bg-slate-900">
-				<div className="flex flex-col items-center justify-center gap-4 h-full mx-7">
-					<h2 className="text-2xl font-bold text-white mb-4">Onboarding Steps</h2>
-					<div className="flex flex-col items-center justify-center">
-						<p className="text-blue-400 mb-4">Step 1: Sign Up </p>
-						<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
-						<p className="text-gray-300 mb-4">Step 2: Enter your details </p>
-						<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
-						<p className="text-gray-300">Step 3: Upload Customer Visits Data</p>
-					</div>
-				</div>
-			</div>
+		<div className="md:grid md:grid-cols-2 flex flex-col items-center min-h-screen">
 			<div className="flex items-center justify-center">
 				<div className="flex flex-col items-center gap-4">
 					<h1 className="text-3xl font-bold">Welcome back</h1>
@@ -61,7 +50,7 @@ const SignIn = () => {
 							supabaseClient={supabaseClient}
 							providers={["google", "facebook"]}
 							magicLink={true}
-							
+
 							appearance={{
 								theme: ThemeSupa,
 								variables: {
@@ -75,11 +64,39 @@ const SignIn = () => {
 							}}
 							theme="light"
 						/>
-						
+
 					</div>
 				</div>
 			</div>
-			
+
+			<div className="w-full h-full bg-slate-900 m-7">
+				<div className="flex flex-col items-center justify-center m-5 gap-4 h-full mx-7">
+					<h2 className="text-2xl font-bold text-white mb-4">Onboarding Steps</h2>
+					<div className="flex flex-col items-center justify-center">
+						<div className="flex flex-col items-center gap-4 justify-center">
+							<div className="flex items-center gap-2">
+								<IoMdLogIn className="h-6 w-6 text-blue-400" />
+								<div className="flex flex-col">
+								<p className="text-blue-400 ">Step 1: Sign Up </p>
+								</div>
+							</div>
+							<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
+							<div className="flex items-center gap-2">
+								<MdPersonAdd className="h-6 w-6 text-gray-300" />
+								<div className="flex flex-col">
+									<p className="text-gray-300">Step 2: Enter your details </p>
+								</div>
+							</div>
+							<MdArrowDownward className="h-8 w-8 text-blue-400 mb-4" />
+							<div className="flex items-center gap-2">
+								<MdCloudUpload className="h-6 w-6 text-gray-300" />
+								<p className="text-gray-300">Step 3: Upload Customer Visits Data</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	);
 };
