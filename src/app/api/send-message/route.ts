@@ -47,6 +47,7 @@ export async function POST() {
                 const differenceInDays = Math.round(((currentDate.getTime() - lastVisitDate.getTime()) / (1000 * 3600 * 24)) * 100) / 100;
 
                 console.log(`Current customer: ${current_customer}, Last visit date: ${lastVisitDate.toISOString()}, Difference in days: ${differenceInDays}`);
+                let messageSent = false;
 
               if (row.message_sent === false && differenceInDays >= 30) {
                       // Perform your action here
@@ -55,7 +56,7 @@ export async function POST() {
                         // Create a new product
                         const product = await stripe.products.create({
                             name: row.offering_name,
-                            description: `You have been awarded a ${row.discount} discount from ${row.business}`
+                            description: `You have been awarded a ${row.discount} discount on ${row.offering_name} from ${row.business}`
                         });
 
                         const { data, error: updateError } = await supabase
@@ -88,9 +89,10 @@ export async function POST() {
                           ],
                         });
 
-                        const wa_message = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
-                        const encodedMessage = encodeURIComponent(wa_message);
+                        const wa_message_en = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
+                        const encodedMessage = encodeURIComponent(wa_message_en);
                         const waMessageURL = `https://wa.me/?text=${encodedMessage}`;
+                        
 
                         const response = await axios.post(`https://graph.facebook.com/v19.0/${process.env.PHONE_ID}/messages`, {
                             messaging_product: "whatsapp",
@@ -142,22 +144,25 @@ export async function POST() {
                         });
 
                       console.log('Message sent successfully:', response.data);
+                      if(response.data.messages[0].message_status == 'accepted') {
+                        messageSent = true
+                      }
                   };
 
                   try {
                     await sendMessage();
-                    await supabase
-                    .from('customer-visits')
-                    .update({ message_sent: true })
-                    .eq('customer_name', current_customer)
-                    .select();
-                    console.log('Message sent successfully!');
+                    if(messageSent = true) {
+                      await supabase
+                      .from('customer-visits')
+                      .update({ message_sent: true })
+                      .eq('customer_name', current_customer)
+                      .select();
+                      console.log('Message sent successfully!');
+                    }
+                    
                 } catch (MessageError) {
                     console.error('Error sending message:', MessageError);
                 }
-
-
-
                 }
             }
         }
