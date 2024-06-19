@@ -216,7 +216,7 @@ export default function Preferences() {
             </select>
         </div>
         <div className="mb-4">
-            <label htmlFor="rewardFrequency" className="block text-lg font-medium text-gray-700 mb-2">How often do you want to reward your customers?</label>
+            <label htmlFor="rewardFrequency" className="block text-lg font-medium text-gray-700 mb-2">When would you like to reward your customers since their last purchase?</label>
             <div className="flex items-center space-x-2">
                 <input
                     type="number"
@@ -251,7 +251,7 @@ export default function Preferences() {
             <p className="text-left text-gray-600">File uploaded should have the same format as the sample file below.</p>
           </div>
           <div className="inline-block bg-red-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
-            <CiWarning className="text-5xl text-red-500" />
+            <CiWarning className="text-7xl text-red-500" />
           <p className="text-left text-gray-600">All data is shown to the developer except <i>offering_price</i> column. It is encrypted and can only be shown to you.</p>
         </div>
           <input
