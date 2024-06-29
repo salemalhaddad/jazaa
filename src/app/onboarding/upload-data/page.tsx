@@ -174,16 +174,19 @@ export default function Preferences() {
 		<h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">Fill in the required details</h2>
         <div >
             <label htmlFor="phoneNumber" className="block text-lg font-medium text-gray-700 mb-2 mt-8">Enter your WhatsApp number</label>
-            <input
-                type="tel"
-                name="phoneNumber"
-                id="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                placeholder="Enter your phone number"
-                required
-            />
+            <div className="flex items-center">
+                <span className="text-lg font-medium text-gray-700 mr-2">+971</span>
+                <input
+                    type="tel"
+                    name="phoneNumber"
+                    id="phoneNumber"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                    placeholder="e.g. 501234567"
+                    required
+                />
+            </div>
         </div>
         <div className="mb-4">
             <label htmlFor="businessName" className="block text-lg font-medium text-gray-700 mb-2 mt-4">Enter business name</label>
@@ -235,9 +238,9 @@ export default function Preferences() {
                     required
                 >
                     <option value="" disabled selected>Select Frequency Unit</option>
-                    <option value="days">Per Day</option>
-                    <option value="weeks">Per Week</option>
-                    <option value="months">Per Month</option>
+                    <option value="days">Day(s) since last visit</option>
+                    <option value="weeks">Week(s) since last visit</option>
+                    <option value="months">Month(s) since last visit</option>
                 </select>
             </div>
         </div>
