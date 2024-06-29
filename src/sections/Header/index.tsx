@@ -103,13 +103,13 @@ const Header = () => {
 				</div>
 			</div>
 
-			
+
 			{/* <div className="flex flex-wrap justify-center items-center gap-4 p-6 mb-7">
 				<h2 className="w-full text-center text-2xl font-semibold mb-4">Products We Integrate With</h2>
 				<div className="flex justify-center items-center gap-6">
 					<img src="/foodics.png" alt="Product 1 Logo" className="h-12 filter grayscale hover:grayscale-0 transition duration-300" />
 					<img src="/shopify.webp" alt="Product 2 Logo" className="h-12 filter grayscale hover:grayscale-0 transition duration-300" />
-				
+
 				</div>
 			</div> */}
 		</div>

@@ -59,6 +59,7 @@ export async function POST() {
                             description: `You have been awarded a ${row.discount} discount on ${row.offering_name} from ${row.business}`
                         });
 
+
                         const { data, error: updateError } = await supabase
                         .rpc('decrypt_price', { last_date: row.last_visit_date })
 
@@ -91,7 +92,30 @@ export async function POST() {
 
                         const wa_message_en = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
                         const encodedMessage = encodeURIComponent(wa_message_en);
-                        const waMessageURL = `https://wa.me/?text=${encodedMessage}`;
+                        const waMessageURL = `https://wa.me/${row.whatsapp_no}?text=${encodedMessage}`;
+
+
+						let shortenedUrl;
+						const bitlyToken = process.env.BITLY_TOKEN;
+						if (!bitlyToken) {
+							console.error('BITLY_TOKEN is not set');
+							return;
+						}
+						try {
+							const response = await fetch('https://api-ssl.bitly.com/v4/shorten', {
+								method: 'POST',
+								headers: {
+									'Authorization': `Bearer ${bitlyToken}`,
+									'Content-Type': 'application/json'
+								},
+								body: JSON.stringify({ "long_url": waMessageURL, "domain": "bit.ly" })
+							});
+							const data = await response.json();
+							shortenedUrl = data.link;
+							console.log(`Shortened URL: ${shortenedUrl}`);
+						} catch (error) {
+							console.error('Error shortening URL:', error);
+						}
 
 
                         const response = await axios.post(`https://graph.facebook.com/v19.0/${process.env.PHONE_ID}/messages`, {
