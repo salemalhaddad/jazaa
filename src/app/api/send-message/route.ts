@@ -92,8 +92,8 @@ export async function POST() {
 
                         const wa_message_en = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
                         const encodedMessage = encodeURIComponent(wa_message_en);
-                        const waMessageURL = `https://wa.me/${row.whatsapp_no}?text=${encodedMessage}`;
-
+						const waNo = '971' + row.whatsapp_no
+                        const waMessageURL = `https://wa.me/${waNo}?text=${encodedMessage}`;
 
 						let shortenedUrl;
 						const bitlyToken = process.env.BITLY_TOKEN;
@@ -152,7 +152,7 @@ export async function POST() {
                                     },
                                     {
                                       type: "text",
-                                      text: waMessageURL
+                                      text: shortenedUrl
                                     }
 
                                   ]
