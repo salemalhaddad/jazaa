@@ -1,3 +1,4 @@
+import { MdDiscount } from 'react-icons/md';
 import { NextResponse } from "next/server";
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import axios from 'axios';
@@ -117,6 +118,7 @@ export async function POST() {
 							console.error('Error shortening URL:', error);
 						}
 
+						const dis = row.discount + '%'
 
                         const response = await axios.post(`https://graph.facebook.com/v19.0/${process.env.PHONE_ID}/messages`, {
                             messaging_product: "whatsapp",
@@ -148,7 +150,7 @@ export async function POST() {
                                     },
                                     {
                                       type: "text",
-                                      text: row.discount
+                                      text: dis
                                     },
                                     {
                                       type: "text",
