@@ -4,6 +4,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
+import Script from 'next/script';
+import mixpanel from 'mixpanel-browser';
+
+
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -20,7 +24,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 			    <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-				
+
 			<body className={font.className}>
 				<ThemeProvider
 					attribute="class"

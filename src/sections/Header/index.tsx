@@ -1,8 +1,14 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from 'react';
 import { MdWhatsapp, MdArrowRight, MdDiscount, MdNotifications } from 'react-icons/md';
 
 const Header = () => {
+	const [isClient, setIsClient] = useState(false);
+
+	useEffect(() => {
+		setIsClient(true);
+	  }, []);
 
 	return (
 		<div className="w-full h-full flex flex-col items-center justify-center gap-6">
@@ -23,11 +29,15 @@ const Header = () => {
 				</a>
 			</div>
 
-				<div className="flex justify-center p-5 items-center mt-8">
-					<div className="bg-gray-200 p-2 rounded-lg shadow-lg w-[320px]">
-						<video controls width="100%" height="auto" src="/Jazaa Demo.mp4" type="video/mp4" />
-					</div>
+			<div className="flex justify-center p-5 items-center mb-10">
+				<div className="bg-gray-200 p-2 rounded-lg shadow-lg w-[320px]">
+				{isClient && (
+					<video width="100%" height="auto" >
+					<source src="/Jazaa Demo.mp4" type="video/mp4" />
+					</video>
+				)}
 				</div>
+			</div>
 
 
 
