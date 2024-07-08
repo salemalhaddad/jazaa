@@ -1,3 +1,4 @@
+// This directive ensures that the code runs on the client side
 "use client";
 
 import Footer from "@/components/layout/Footer";
@@ -13,14 +14,13 @@ import mixpanel from '../utils/mixpanel';
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-
-	// const router = useRouter();
-
-	// useEffect(() => {
-	// 	const handleRouteChange = (url) => {
-	// 	  mixpanel.track('Page View', { page: url });
-	// 	};
-	//   }, []);
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			mixpanel.track('Page View', {
+			  page: 'Home',
+			});
+		  }
+	}, []);
 
 	return (
 		<main>
@@ -28,10 +28,9 @@ export default function Home() {
 				<Navbar />
 				<Header />
 			</div>
+			{/* Uncomment the sections below as needed */}
 			{/* <Benefits /> */}
-
 			{/* <HowItWorks /> */}
-
 			{/* <WhyUs /> */}
 			{/* <Testimonials /> */}
 			{/* <Pricing /> */}
