@@ -11,10 +11,11 @@ import { CiWarning } from "react-icons/ci";
 export default function Preferences() {
 	const [customerDataFile, setCustomerDataFile] = useState<File | null>(null);
 	const [uploadSuccess, setUploadSuccess] = useState(false);
+	const [uploadOption, setUploadOption] = useState("");
 	const [frequency, setRewardFrequency] = useState("");
 	const [businessName, setBusinessName] = useState("");
 	const [businessType, setBusinessType] = useState("");
-
+	const [discount, setDiscount] = useState(0);
 	const [frequency_unit, setRewardFrequencyUnit] = useState("");
 	const [terms, setTerms] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState("");
@@ -56,6 +57,179 @@ export default function Preferences() {
   const handlePhoneChange = (e: { target: { value: SetStateAction<string>; }; }) => {
     setPhoneNumber(e.target.value);
   };
+
+
+
+  const handleShopifyDataUpload= async () => {
+    const file = customerDataFile;
+    if (!file) {
+      return;
+    }
+
+    interface CsvRow {
+		Name: string; // Name
+		Phone: string; // Phone
+		Email: string; // Email
+		Financial_Status: string; // Financial Status
+		Paid_at: string; // Paid at
+		Fulfillment_Status: string; // Fulfillment Status
+		Fulfilled_at: string; // Fulfilled at
+		Accepts_Marketing: boolean; // Accepts Marketing
+		Currency: string; // Currency
+		Subtotal: number; // Subtotal
+		Shipping: number; // Shipping
+		Taxes: number; // Taxes
+		Total: number; // Total
+		Discount_Code: string; // Discount Code
+		Discount_Amount: number; // Discount Amount
+		Shipping_Method: string; // Shipping Method
+		Created_at: string; // Created at
+		Lineitem_quantity: number; // Lineitem quantity
+		Lineitem_name: string; // Lineitem name
+		Lineitem_price: number; // Lineitem price
+		Lineitem_compare_at_price: number; // Lineitem compare-at price
+		Lineitem_SKU: string; // Lineitem SKU
+		Lineitem_requires_shipping: boolean; // Lineitem requires shipping
+		Lineitem_taxable: boolean; // Lineitem taxable
+		Lineitem_fulfillment_status: string; // Lineitem fulfillment status
+		Billing_Name: string; // Billing Name
+		Billing_Street: string; // Billing Street
+		Billing_City: string; // Billing City
+		Billing_Zip: string; // Billing Zip
+		Billing_Province: string; // Billing Province
+		Billing_Province_Name: string; // Billing Province Name
+		Billing_Country: string; // Billing Country
+		Billing_Phone: string; // Billing Phone
+		Shipping_Name: string; // Shipping Name
+		Shipping_Street: string; // Shipping Street
+		Shipping_City: string; // Shipping City
+		Shipping_Zip: string; // Shipping Zip
+		Shipping_Province: string; // Shipping Province
+		Shipping_Province_Name: string; // Shipping Province Name
+		Shipping_Country: string; // Shipping Country
+		Shipping_Phone: string; // Shipping Phone
+		Notes: string; // Notes
+		Note_Attributes: string; // Note Attributes
+		Cancelled_at: string; // Cancelled at
+		Payment_Method: string; // Payment Method
+		Payment_References: string; // Payment References
+		Refunded_Amount: number; // Refunded Amount
+		Vendor: string; // Vendor
+		Outstanding_Balance: number; // Outstanding Balance
+		Employee: string; // Employee
+		Location: string; // Location
+		Device_ID: string; // Device ID
+		Id: string; // Id
+		Tags: string; // Tags
+		Risk_Level: string; // Risk Level
+		Source: string; // Source
+		Lineitem_discount: number; // Lineitem discount
+		Tax_1_Name: string; // Tax 1 Name
+		Tax_1_Value: number; // Tax 1 Value
+		Tax_2_Name: string; // Tax 2 Name
+		Tax_2_Value: number; // Tax 2 Value
+		Tax_3_Name: string; // Tax 3 Name
+		Tax_3_Value: number; // Tax 3 Value
+		Tax_4_Name: string; // Tax 4 Name
+		Tax_4_Value: number; // Tax 4 Value
+		Tax_5_Name: string; // Tax 5 Name
+		Tax_5_Value: number; // Tax 5 Value
+		Payment_ID: string; // Payment ID
+		Payment_terms: string; // Payment terms
+		Next_payment_due_at: string; // Next payment due at
+    }
+
+    Papa.parse<CsvRow>(file, {
+      header: true,
+      complete: async function (results) {
+        const { data, errors } = results;
+        if (errors.length > 0) {
+          console.error('Errors in parsing CSV:', errors);
+          return;
+        }
+
+        for (const row of data) {
+          if (row) {
+            const uniqueIdentifier = row.Billing_Name;
+            if (!uniqueIdentifier) {
+              console.error('Unique identifier missing in row, skipping:', row);
+              continue;
+            }
+
+            const rowWithBusiness = { ...row, business: user?.user_metadata.full_name };
+
+            const { data: existingRows, error: fetchError } = await supabaseClient
+              .from('customer-visits')
+              .select('*')
+              .eq('customer_name', uniqueIdentifier);
+
+            if (fetchError) {
+              console.error('Error fetching existing rows:', fetchError);
+              continue;
+            }
+
+			console.log('Business name is: ', businessName)
+            if (existingRows.length === 0) {
+              const { data: { user } } = await supabaseClient.auth.getUser();
+              const { error: insertError } = await supabaseClient
+                .from('customer-visits')
+                .insert([
+                  {
+                		customer_name: row.Billing_Name,
+                    	whatsapp_no: row.Phone,
+                        last_visit_date: row.Paid_at,
+                        offering_name: row.Lineitem_name,
+                        offering_price: row.Lineitem_price,
+                        discount: discount,
+                        business: businessName,
+                        frequency: frequency,
+                        frequency_unit: frequency_unit,
+                        business_no: phoneNumber
+                  }
+                ]);
+
+              const { data, error: updateError } = await supabaseClient
+                .rpc('encrypt_price', { last_date: row.Paid_at });
+
+              if (updateError) {
+                console.error('Error updating offering_amount:', updateError);
+              } else {
+                console.log('Column offering_amount updated successfully.');
+              }
+
+              if (insertError) {
+                console.error('Error inserting row:', insertError);
+              }
+            } else {
+              console.log('Row already exists, skipping insert:', rowWithBusiness);
+            }
+          }
+
+          console.log('CSV processing completed');
+          setUploadSuccess(true);
+
+		  const { data, error } = await supabaseClient
+            .from('jazaa-users')
+            .insert([
+                {
+                    business_name: businessName,
+					businessType: businessType,
+                    frequency: frequency,
+                    frequency_unit: frequency_unit,
+                    phone_no: phoneNumber
+                }
+            ]);
+
+        if (error) {
+            console.log("Error in onboarding page", error);
+        } else {
+            console.log("Data insertion successful: ");
+		}
+
+        }
+      },
+    });
+};
 
   const handleCsvUpload = async () => {
     const file = customerDataFile;
@@ -163,9 +337,6 @@ export default function Preferences() {
         }
       },
     });
-
-
-
   };
 
   return (
@@ -210,7 +381,7 @@ export default function Preferences() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md"
                 required
             >
-                <option value="" disabled selected>Select Business Type</option>
+                <option value="" disabled>Select Business Type</option>
                 <option value="restaurant">Restaurant</option>
                 <option value="retail">Retail</option>
                 <option value="fitness">Fitness</option>
@@ -218,6 +389,44 @@ export default function Preferences() {
 				<option value="other">Other</option>
             </select>
         </div>
+		<div className="mb-4">
+			<label htmlFor="discount" className="block text-lg font-medium text-gray-700 mb-2">Select discount percentage given to customers</label>
+			<select
+				id="discount"
+				value={discount}
+				onChange={(e) => {
+					if (e.target.value === 'other') {
+						setDiscount(null);
+					} else {
+						setDiscount(Number(e.target.value));
+					}
+				}}
+				className="w-full px-4 py-2 border border-gray-300 rounded-md"
+				required
+			>
+				<option value="" disabled>Select Discount Percentage</option>
+				<option value="5">5%</option>
+				<option value="10">10%</option>
+				<option value="15">15%</option>
+				<option value="20">20%</option>
+				<option value="25">25%</option>
+				<option value="30">30%</option>
+				<option value="35">35%</option>
+				<option value="40">40%</option>
+				<option value="45">45%</option>
+				<option value="50">50%</option>
+			</select>
+			{discount === null && (
+				<input
+					type="number"
+					id="customDiscount"
+					onChange={(e) => setDiscount(Number(e.target.value))}
+					className="w-full px-4 py-2 border border-gray-300 rounded-md mt-2"
+					placeholder="Enter custom discount percentage"
+					// onBlur={(e) => e.target.focus()}
+				/>
+			)}
+		</div>
         <div className="mb-4">
             <label htmlFor="rewardFrequency" className="block text-lg font-medium text-gray-700 mb-2">When would you like to reward your customers since their last purchase?</label>
             <div className="flex items-center space-x-2">
@@ -230,6 +439,7 @@ export default function Preferences() {
                     placeholder="Enter frequency"
                     required
                 />
+
                 <select
 					id="rewardFrequencyUnit"
 					value={frequency_unit}
@@ -237,7 +447,7 @@ export default function Preferences() {
                     className="w-full px-4 py-2 border border-gray-300 rounded-md"
                     required
                 >
-                    <option value="" disabled selected>Select Frequency Unit</option>
+                    <option value="" disabled>Select Frequency Unit</option>
                     <option value="days">Day(s) since last visit</option>
                     <option value="weeks">Week(s) since last visit</option>
                     <option value="months">Month(s) since last visit</option>
@@ -248,24 +458,44 @@ export default function Preferences() {
 
 
         <div className="mb-4">
-          <label className="block text-lg font-medium text-gray-700 mb-2 mt-2" htmlFor="uploadCsv">Upload Customer&apos;s Visits Data</label>
-        <div className="inline-block bg-blue-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
+          <label className="block text-lg font-medium text-gray-700 mb-2 mt-2">Choose Data Upload Option</label>
+          <div className="flex flex-col gap-4">
+            <button
+              onClick={() => setUploadOption('manual')}
+              className={`py-3 px-6 rounded-lg shadow-md ${uploadOption === 'manual' ? 'bg-white text-blue-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
+              disabled={uploadOption === 'manual'}
+            >
+              Manual
+            </button>
+            <button
+              onClick={() => setUploadOption('shopify')}
+              className={`py-3 px-6 rounded-lg shadow-md ${uploadOption === 'shopify' ? 'bg-white text-blue-500 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-700 text-white'}`}
+              disabled={uploadOption === 'shopify'}
+            >
+              Shopify Orders Data
+            </button>
+          </div>
+          {uploadOption && (
+            <div className="mt-4">
+				<div className="inline-block bg-blue-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
           <IoIosInformationCircleOutline className="text-5xl" />
             <p className="text-left text-gray-600">File uploaded should have the same format as the sample file below.</p>
           </div>
           <div className="inline-block bg-red-100 text-blue-700 p-2 gap-2 rounded-lg flex flex-row items-center mb-4">
             <CiWarning className="text-7xl text-red-500" />
-          <p className="text-left text-gray-600">All data is shown to the developer except <i>offering_price</i> column. It is encrypted and can only be shown to you.</p>
+          <p className="text-left text-gray-600">All data is shown to the developer except ones related to sales & revenue. It is encrypted and can only be shown to you.</p>
         </div>
-          <input
-            type="file"
-            id="uploadCsv"
-            accept=".csv"
-            onChange={handleDataUpload}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
-          />
-
-          <a href="/customer_visits_sample.csv" download className="block text-left text-blue-600 mt-2 underline">Download a sample CSV file</a>
+              <label htmlFor="uploadCsvData" className="block text-lg font-medium text-gray-700 mb-2">Upload {uploadOption === 'manual' ? 'Manual' : 'Shopify Orders'} Data</label>
+              <input
+                type="file"
+                id="uploadCsvData"
+                accept=".csv"
+				onChange={handleDataUpload}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md"
+              />
+              <a href={`/${uploadOption}_orders_sample.csv`} download className="block text-left text-blue-600 mt-2 underline">Download a sample CSV file</a>
+            </div>
+          )}
         </div>
 
 
@@ -282,7 +512,7 @@ export default function Preferences() {
         <button
           type="button"
           className="w-full px-4 py-2 bg-blue-600 text-white mt-2 rounded-md hover:bg-blue-700"
-          onClick={handleCsvUpload}
+          onClick={uploadOption === 'manual' ? handleCsvUpload : handleShopifyDataUpload}
         >
           Upload
         </button>
@@ -291,4 +521,3 @@ export default function Preferences() {
     </div>
   );
 }
-
