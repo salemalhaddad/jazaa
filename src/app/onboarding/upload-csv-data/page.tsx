@@ -19,6 +19,7 @@ export default function Preferences() {
 	const [frequency_unit, setRewardFrequencyUnit] = useState("");
 	const [terms, setTerms] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState("");
+	const [uploadError, setUploadError] = useState<string | null>(null);
 	const supabaseClient = useSupabaseClient();
 	const { session } = useSessionContext();
 	const user = session?.user;
@@ -67,167 +68,209 @@ export default function Preferences() {
     }
 
     interface CsvRow {
-		Name: string; // Name
-		Phone: string; // Phone
-		Email: string; // Email
-		Financial_Status: string; // Financial Status
-		Paid_at: string; // Paid at
-		Fulfillment_Status: string; // Fulfillment Status
-		Fulfilled_at: string; // Fulfilled at
-		Accepts_Marketing: boolean; // Accepts Marketing
-		Currency: string; // Currency
-		Subtotal: number; // Subtotal
-		Shipping: number; // Shipping
-		Taxes: number; // Taxes
-		Total: number; // Total
-		Discount_Code: string; // Discount Code
-		Discount_Amount: number; // Discount Amount
-		Shipping_Method: string; // Shipping Method
-		Created_at: string; // Created at
-		Lineitem_quantity: number; // Lineitem quantity
-		Lineitem_name: string; // Lineitem name
-		Lineitem_price: number; // Lineitem price
-		Lineitem_compare_at_price: number; // Lineitem compare-at price
-		Lineitem_SKU: string; // Lineitem SKU
-		Lineitem_requires_shipping: boolean; // Lineitem requires shipping
-		Lineitem_taxable: boolean; // Lineitem taxable
-		Lineitem_fulfillment_status: string; // Lineitem fulfillment status
-		Billing_Name: string; // Billing Name
-		Billing_Street: string; // Billing Street
-		Billing_City: string; // Billing City
-		Billing_Zip: string; // Billing Zip
-		Billing_Province: string; // Billing Province
-		Billing_Province_Name: string; // Billing Province Name
-		Billing_Country: string; // Billing Country
-		Billing_Phone: string; // Billing Phone
-		Shipping_Name: string; // Shipping Name
-		Shipping_Street: string; // Shipping Street
-		Shipping_City: string; // Shipping City
-		Shipping_Zip: string; // Shipping Zip
-		Shipping_Province: string; // Shipping Province
-		Shipping_Province_Name: string; // Shipping Province Name
-		Shipping_Country: string; // Shipping Country
-		Shipping_Phone: string; // Shipping Phone
-		Notes: string; // Notes
-		Note_Attributes: string; // Note Attributes
-		Cancelled_at: string; // Cancelled at
-		Payment_Method: string; // Payment Method
-		Payment_References: string; // Payment References
-		Refunded_Amount: number; // Refunded Amount
-		Vendor: string; // Vendor
-		Outstanding_Balance: number; // Outstanding Balance
-		Employee: string; // Employee
-		Location: string; // Location
-		Device_ID: string; // Device ID
-		Id: string; // Id
-		Tags: string; // Tags
-		Risk_Level: string; // Risk Level
-		Source: string; // Source
-		Lineitem_discount: number; // Lineitem discount
-		Tax_1_Name: string; // Tax 1 Name
-		Tax_1_Value: number; // Tax 1 Value
-		Tax_2_Name: string; // Tax 2 Name
-		Tax_2_Value: number; // Tax 2 Value
-		Tax_3_Name: string; // Tax 3 Name
-		Tax_3_Value: number; // Tax 3 Value
-		Tax_4_Name: string; // Tax 4 Name
-		Tax_4_Value: number; // Tax 4 Value
-		Tax_5_Name: string; // Tax 5 Name
-		Tax_5_Value: number; // Tax 5 Value
-		Payment_ID: string; // Payment ID
-		Payment_terms: string; // Payment terms
-		Next_payment_due_at: string; // Next payment due at
+        Name: string;
+        Email: string;
+        Financial_Status: string;
+        Paid_at: string;
+        Fulfillment_Status: string;
+        Fulfilled_at: string;
+        Accepts_Marketing: string;
+        Currency: string;
+        Subtotal: string;
+        Shipping: string;
+        Taxes: string;
+        Total: string;
+        Discount_Code: string;
+        Discount_Amount: string;
+        Shipping_Method: string;
+        Created_at: string;
+        Lineitem_quantity: string;
+        Lineitem_name: string;
+        Lineitem_price: string;
+        Lineitem_compare_at_price: string;
+        Lineitem_sku: string;
+        Lineitem_requires_shipping: string;
+        Lineitem_taxable: string;
+        Lineitem_fulfillment_status: string;
+        Billing_Name: string;
+        Billing_Street: string;
+        Billing_Address1: string;
+        Billing_Address2: string;
+        Billing_Company: string;
+        Billing_City: string;
+        Billing_Zip: string;
+        Billing_Province: string;
+        Billing_Country: string;
+        Billing_Phone: string;
+        Shipping_Name: string;
+        Shipping_Street: string;
+        Shipping_Address1: string;
+        Shipping_Address2: string;
+        Shipping_Company: string;
+        Shipping_City: string;
+        Shipping_Zip: string;
+        Shipping_Province: string;
+        Shipping_Country: string;
+        Shipping_Phone: string;
+        Notes: string;
+        Note_Attributes: string;
+        Cancelled_at: string;
+        Payment_Method: string;
+        Payment_Reference: string;
+        Refunded_Amount: string;
+        Vendor: string;
+        Outstanding_Balance: string;
+        Employee: string;
+        Location: string;
+        Device_ID: string;
+        Id: string;
+        Tags: string;
+        Risk_Level: string;
+        Source: string;
+        Lineitem_discount: string;
+        Tax_1_Name: string;
+        Tax_1_Value: string;
+        Tax_2_Name: string;
+        Tax_2_Value: string;
+        Tax_3_Name: string;
+        Tax_3_Value: string;
+        Tax_4_Name: string;
+        Tax_4_Value: string;
+        Tax_5_Name: string;
+        Tax_5_Value: string;
+        Phone: string;
+        Receipt_Number: string;
+        Duties: string;
+        Billing_Province_Name: string;
+        Shipping_Province_Name: string;
+        Payment_ID: string;
+        Payment_Terms_Name: string;
+        Next_Payment_Due_At: string;
+        Payment_References: string;
     }
 
     Papa.parse<CsvRow>(file, {
       header: true,
+      delimiter: ",", // Specify the delimiter explicitly
+      skipEmptyLines: true, // Skip empty lines
       complete: async function (results) {
-        const { data, errors } = results;
+        const { data: csvData, errors, meta } = results;
         if (errors.length > 0) {
           console.error('Errors in parsing CSV:', errors);
+          // Display error message to the user
+          setUploadError("Error parsing CSV file. Please check the file format.");
+          return;
+        }
+        if (meta.fields && meta.fields.length !== 79) {
+          console.error(`Expected 79 fields, but found ${meta.fields.length}`);
+          setUploadError(`Invalid CSV format. Expected 79 fields, but found ${meta.fields.length}.`);
           return;
         }
 
-        for (const row of data) {
+        let processedRows = 0;
+        let skippedRows = 0;
+
+        for (const row of csvData) {
           if (row) {
-            const uniqueIdentifier = row.Billing_Name;
+            console.log('Raw row data:', row);
+            // Check for 'Billing Name' with space and 'Billing_Name' with underscore
+            const billingName = row['Billing Name'] || row.Billing_Name || '';
+
+            let uniqueIdentifier = billingName || row.Name || row.Id || `Order_${row.Name}`;
+
             if (!uniqueIdentifier) {
-              console.error('Unique identifier missing in row, skipping:', row);
+              console.error('Unable to generate unique identifier for row:', row);
+            //   setUploadError((prev) => prev + `\nRow skipped due to missing identifier: ${JSON.stringify(row)}`);
+			setUploadError((prev) => `CSV format is unidentifiable. Please check first column (Id).`);
+              skippedRows++;
               continue;
             }
 
-            const rowWithBusiness = { ...row, business: user?.user_metadata.full_name };
+            console.log('Processing row:', uniqueIdentifier);
 
-            const { data: existingRows, error: fetchError } = await supabaseClient
-              .from('customer-visits')
-              .select('*')
-              .eq('customer_name', uniqueIdentifier);
-
-            if (fetchError) {
-              console.error('Error fetching existing rows:', fetchError);
-              continue;
-            }
-
-			console.log('Business name is: ', businessName)
-            if (existingRows.length === 0) {
-              const { data: { user } } = await supabaseClient.auth.getUser();
-              const { error: insertError } = await supabaseClient
+            try {
+              const { data: existingRows, error: fetchError } = await supabaseClient
                 .from('customer-visits')
-                .insert([
-                  {
-                		customer_name: row.Billing_Name,
-                    	whatsapp_no: row.Phone,
-                        last_visit_date: row.Paid_at,
-                        offering_name: row.Lineitem_name,
-                        offering_price: row.Lineitem_price,
-                        discount: discount,
-                        business: businessName,
-                        frequency: frequency,
-                        frequency_unit: frequency_unit,
-                        business_no: phoneNumber
-                  }
-                ]);
+                .select('*')
+                .eq('customer_name', uniqueIdentifier);
 
-              const { data, error: updateError } = await supabaseClient
-                .rpc('encrypt_price', { last_date: row.Paid_at });
-
-              if (updateError) {
-                console.error('Error updating offering_amount:', updateError);
-              } else {
-                console.log('Column offering_amount updated successfully.');
+              if (fetchError) {
+                console.error('Error fetching existing rows:', fetchError);
+                // setUploadError((prev) => prev + `\nError fetching data for ${uniqueIdentifier}: ${fetchError.message}`);
+                setUploadError((prev) => `Jazaa is only for signed in businesses. Please sign in.`);
+                skippedRows++;
+                continue;
               }
 
-              if (insertError) {
-                console.error('Error inserting row:', insertError);
-              }
-            } else {
-              console.log('Row already exists, skipping insert:', rowWithBusiness);
-            }
-          }
+              console.log('Business name is: ', businessName);
+              if (existingRows.length === 0) {
+                const { error: insertError } = await supabaseClient
+                  .from('customer-visits')
+                  .insert([
+                    {
+                      customer_name: uniqueIdentifier,
+                      whatsapp_no: row['Billing Phone'] || '',
+                      last_visit_date: row['Paid at'] || row['Created at'],
+                      offering_name: row['Lineitem name'] || 'Unknown Product',
+                      offering_price: parseFloat(row['Lineitem price']) || 0,
+                      discount: discount,
+                      business: businessName,
+                      frequency: frequency,
+                      frequency_unit: frequency_unit,
+                      business_no: phoneNumber
+                    }
+                  ]);
 
-          console.log('CSV processing completed');
-          setUploadSuccess(true);
-
-		  const { data, error } = await supabaseClient
-            .from('jazaa-users')
-            .insert([
-                {
-                    business_name: businessName,
-					businessType: businessType,
-                    frequency: frequency,
-                    frequency_unit: frequency_unit,
-                    phone_no: phoneNumber
+                if (insertError) {
+                  console.error('Error inserting row:', insertError);
+                //   setUploadError((prev) => prev + `\nError inserting data for ${uniqueIdentifier}: ${insertError.message}`);
+				  setUploadError((prev) => `Please contact hello@jazaa.co.`);
+                  skippedRows++;
+                } else {
+                  processedRows++;
+                  console.log(`Inserted new row for ${uniqueIdentifier}`);
                 }
-            ]);
+              } else {
+                console.log('Row already exists, skipping insert:', uniqueIdentifier);
+                skippedRows++;
+              }
+            } catch (error) {
+              console.error('Unexpected error processing row:', error);
+            //   setUploadError((prev) => prev + `\nUnexpected error processing row: ${error.message}`);
+			setUploadError((prev) => `Please contact hello@jazaa.co.`);
+              skippedRows++;
+            }
+          } else {
+            console.log('Empty row encountered, skipping');
+            skippedRows++;
+          }
+        }
+
+        console.log(`CSV processing completed. Processed: ${processedRows}, Skipped: ${skippedRows}`);
+        setUploadSuccess(true);
+        // setUploadError((prev) => prev + `\nProcessing summary: ${processedRows} rows processed, ${skippedRows} rows skipped.`);
+        const { data: insertData, error } = await supabaseClient
+          .from('jazaa-users')
+          .insert([
+            {
+              business_name: businessName,
+              businessType: businessType,
+              frequency: frequency,
+              frequency_unit: frequency_unit,
+              phone_no: phoneNumber
+            }
+          ]);
 
         if (error) {
-            console.log("Error in onboarding page", error);
+          console.log("Error in onboarding page", error);
         } else {
-            console.log("Data insertion successful: ");
-		}
-
+          console.log("Data insertion successful: ");
         }
       },
+      error: function(error) {
+        console.error('Error:', error);
+        setUploadError("Error reading the CSV file.");
+      }
     });
 };
 
@@ -517,6 +560,7 @@ export default function Preferences() {
           Upload
         </button>
         {uploadSuccess && <p className="text-center text-green-600 mt-4">CSV upload successful!</p>}
+        {uploadError && <p className="text-center text-red-600 mt-4">{uploadError}</p>}
       </div>
     </div>
   );
