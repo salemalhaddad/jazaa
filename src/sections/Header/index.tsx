@@ -2,90 +2,55 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from 'react';
 import { MdWhatsapp, MdArrowRight, MdDiscount, MdNotifications } from 'react-icons/md';
+import Image from 'next/image';
 
 const Header = () => {
 	const [isClient, setIsClient] = useState(false);
 
 	useEffect(() => {
 		setIsClient(true);
-	  }, []);
+	}, []);
 
 	return (
-		<div className="w-full h-full flex flex-col items-center justify-center gap-6">
-			<div className="text-center">
-				<h1 className="text-4xl sm:text-5xl lg:text-7xl mb-4 sm:mb-6 font-bold leading-snug">
-					Double your repeat business
-				</h1>
-				<p className="text-lg sm:text-xl lg:text-2xl text-[#90A3BF] leading-normal">
-					Reach out to recent customers with <br></br> automated & personalized in-WhatsApp discounts
-				</p>
-			</div>
-			<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-2">
-				<a href="https://jazaa.recatch.cc/meeting/utxnirulve">
-					<Button variant="default">Get a Free Demo</Button>
-				</a>
-				<a href="mailto:hello@jazaa.co">
-					<Button variant="secondary">Contact Us</Button>
-				</a>
+		<div className="w-full h-full flex flex-col md:flex-row items-center justify-between gap-8 px-4 sm:px-8 lg:px-16 py-8">
+			<div className="w-full md:w-1/2 flex flex-col items-start justify-center gap-8 mb-10">
+				<div className="max-w-2xl">
+					<h1 className="text-2xl sm:text-3xl lg:text-4xl mb-4 sm:mb-6 font-bold leading-snug">
+						Double Your Revenue: Turn One-Time Buyers into Loyal Fans
+					</h1>
+					<p className="text-sm sm:text-base lg:text-lg text-[#90A3BF] leading-normal">
+						Effortlessly increase customer retention using personalized WhatsApp discounts. Start now and see results in only 30 days!
+					</p>
+				</div>
+				<div className="flex flex-col sm:flex-row items-start justify-start gap-4 mb-6 w-full">
+					<a href="https://jazaa.recatch.cc/meeting/utxnirulve" className="w-full sm:w-auto">
+						<Button variant="default" className="text-base sm:text-lg px-4 sm:px-6 py-2 sm:py-3 w-full">Get a Free Demo</Button>
+					</a>
+					<a href="mailto:hello@jazaa.co" className="w-full sm:w-auto">
+						<Button variant="secondary" className="text-base sm:text-lg px-4 sm:px-6 py-2 sm:py-3 w-full">Contact Us</Button>
+					</a>
+				</div>
+
+				<div className="w-full">
+					<h2 className="text-xl sm:text-2xl font-bold mb-4">Available Integrations</h2>
+					<div className="flex flex-wrap items-center gap-4 sm:gap-6">
+					<Image src="/shopify.webp" alt="Shopify Logo" width={200} height={200} className="w-28 h-28 sm:w-32 sm:h-32 object-contain filter grayscale hover:grayscale-0 transition duration-300" />
+					<Image src="/ziina.png" alt="Ziina Logo" width={200} height={200} className="w-24 h-24 sm:w-28 sm:h-28 object-contain filter grayscale hover:grayscale-0 transition duration-300" />
+					<Image src="/packman.png" alt="Packman Logo" width={40} height={40} className="w-10 h-10 sm:w-14 sm:h-14 object-contain filter grayscale hover:grayscale-0 transition duration-300" />
+					</div>
+				</div>
 			</div>
 
-			<div className="flex justify-center p-5 items-center mb-10">
-				<div className="bg-gray-200 p-2 rounded-lg shadow-lg w-[320px]">
+			<div className="w-full md:w-1/2 flex justify-center items-center mt-8 md:mt-0">
+				<div className="bg-gray-200 p-2 rounded-lg shadow-lg w-full max-w-[320px]">
 				{isClient && (
-					<video width="100%" height="auto" >
+					<video width="100%" height="auto" autoPlay loop muted playsInline>
 					<source src="/Jazaa Demo.mp4" type="video/mp4" />
+					Your browser does not support the video tag.
 					</video>
 				)}
 				</div>
 			</div>
-
-
-
-
-			{/* <div className="flex md:flex-row flex-col items-center m-8">
-				<div className="flex flex-col bg-white rounded-xl shadow-lg p-4 text-gray-800 w-full ">
-					<div className="flex items-center mb-1">
-						<MdDiscount className="text-4xl text-blue-500 flex-shrink-0" />
-						<h3 className="text-lg font-semibold mb-2 ml-4">Choose your customer reward preferences</h3>
-					</div>
-					<div className=" bg-blue-60 p-2 transition-all duration-500 ease-in-out ">
-						<div className="text-center bg-gradient-to-r from-white to-blue-60 border border-blue-500 p-4 rounded-lg shadow-lg transition-all duration-500 ease-in-out">
-							<p className="text-lg font-semibold">I want to reach out to my customer <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">one month</span> after their last visit with <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">10% discount</span> on <span className="bg-blue-50 text-blue-600 py-0.25 px-2 rounded-full font-bold animate-bounce-out-in">Spa Package</span>.</p>
-						</div>
-					</div>
-				</div>
-				<MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90  md:rotate-0 text-5xl mx-auto" />
-				<div className="flex flex-col bg-white rounded-xl shadow-lg p-4 text-gray-800 w-full ">
-					<div className="flex items-center mb-2">
-					<MdNotifications className="text-4xl text-blue-500 flex-shrink-0" />
-						<h3 className="text-lg flex-grow font-semibold mb-2 ml-4">Get a reminder over WhatsApp</h3>
-					</div>
-					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
-					<p className="flex-grow">Hi Ahmed, <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">Ali</span>&apos;s last visit/purchase was  <span className="bg-blue-50 text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">one month</span> ago for <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">Spa Package</span>. Would you like to send him/her a <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">10% discount</span> on their next <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full font-bold animate-bounce-out-in">Spa Package</span> order? Below is a sample message you could use along with a payment link.</p>
-					</div>
-				</div>
-				<MdArrowRight className="md:text-9xl text-blue-500 my-4 rotate-90 md:rotate-0 text-5xl mx-auto" />
-				<div className="flex flex-col bg-white rounded-xl shadow-lg p-4 text-gray-800 w-full ">
-					<div className="flex items-center ">
-						<MdWhatsapp className="text-4xl text-blue-500 flex-shrink-0" />
-						<h3 className="text-lg font-semibold mb-1 ml-4">Automated WhatsApp message to your customer</h3>
-					</div>
-
-					<div className=" bg-blue-60 p-4 transition-all duration-500 ease-in-out">
-					<p className="mt-1">Hi <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full bg-blue-50 animate-bounce-out-in">Ali</span> 👋, it&apos;s been <span className="bg-blue-50 text-blue-600 py-0.25 bg-blue-50 px-2 font-bold rounded-full animate-bounce-out-in">one month</span> since your last visit! Come back for a session and get <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full animate-bounce-out-in">10% discount</span> on your next purchase of <span className="bg-blue-50 text-blue-600 py-0.25 px-2 font-bold rounded-full font-bold animate-bounce-out-in">Spa Package</span>. <br></br>  <br></br>  Offer is only valid for the next 24 hours so you can pay here: <a href="https://jazaa.co/pay/?id=719" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">https://jazaa.co/pay/?id=719</a> </p>
-					</div>
-				</div>
-			</div> */}
-
-
-			{/* <div className="flex flex-wrap justify-center items-center gap-4 p-6 mb-7">
-				<h2 className="w-full text-center text-2xl font-semibold mb-4">Products We Integrate With</h2>
-				<div className="flex justify-center items-center gap-6">
-					<img src="/foodics.png" alt="Product 1 Logo" className="h-12 filter grayscale hover:grayscale-0 transition duration-300" />
-					<img src="/shopify.webp" alt="Product 2 Logo" className="h-12 filter grayscale hover:grayscale-0 transition duration-300" />
-
-				</div>
-			</div> */}
 		</div>
 	);
 };

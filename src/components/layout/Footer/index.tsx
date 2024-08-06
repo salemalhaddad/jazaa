@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const Footer: React.FC = () => {
 	return (
-		<footer className="bg-white dark:bg-gray-900 ">
+		<footer>
 			<div className="mx-auto w-full lg:py-5">
 				<div className="flex flex-col items-center justify-center">
 					<a href="/" className="flex items-center mb-4">

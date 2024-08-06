@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
 import Script from 'next/script';
-import mixpanel from 'mixpanel-browser';
+import { Analytics } from '@vercel/analytics/react';
 
 
 
@@ -35,6 +35,7 @@ export default async function RootLayout({
 						<UserProvider>{children}</UserProvider>
 					</SupabaseProvider>
 				</ThemeProvider>
+				<Analytics />
 			</body>
 		</html>
 	);
