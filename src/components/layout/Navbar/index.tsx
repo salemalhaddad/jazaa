@@ -70,7 +70,7 @@ const Navbar = () => {
 					))} */}
 				</ul>
 				<div className="lg:flex items-center gap-4 hidden">
-				<a href="https://form.typeform.com/to/S61rXVTl">
+				<a href="https://jazaa.recatch.cc/meeting/utxnirulve">
 				<Button variant="default">Get Demo</Button>
 			</a>
 					{/* {!user ? (

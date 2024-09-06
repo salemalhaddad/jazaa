@@ -19,7 +19,12 @@ const SignIn = () => {
 
 	const router = useRouter();
 
-
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			console.log("Accessing window");
+		const someValue = window.localStorage.getItem('key');
+		}
+	}, []); // Ensure this runs only on the client side
 
 	// useEffect(() => {
 	// 	if (user) {
@@ -50,6 +55,9 @@ const SignIn = () => {
 							supabaseClient={supabaseClient}
 							providers={["google", "facebook"]}
 							magicLink={true}
+							queryParams={{
+								hd: `${window.location.origin}/onboarding/choose-data-option`,
+							  }}
 
 							appearance={{
 								theme: ThemeSupa,
@@ -64,7 +72,6 @@ const SignIn = () => {
 							}}
 							theme="light"
 						/>
-
 					</div>
 				</div>
 			</div>
