@@ -12,7 +12,6 @@ import { MdArrowDownward, MdPersonAdd, MdCloudUpload } from "react-icons/md";
 import { IoMdLogIn } from "react-icons/io";
 import dynamic from 'next/dynamic'
 
-import ComponentWithWindowAccess from '../../components/ComponentWithWindowAccess';
 
 const SignIn = () => {
 	const supabaseClient = useSupabaseClient();
