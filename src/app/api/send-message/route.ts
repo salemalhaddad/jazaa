@@ -61,23 +61,15 @@ export async function POST() {
                         });
 
 
-                        const { data, error: updateError } = await supabase
-                        .rpc('decrypt_price', { last_date: row.last_visit_date })
 
-
-                        console.log('update error: ', updateError)
 
                         let discount = row.discount
                         let number = parseInt(discount.replace('%', ''));
 
-                        console.log('result is 1... ', data[0]?.decrypted_offering_price*(1 - number*0.01))
-
-                        console.log('result is... ', Math.round(data[0]?.decrypted_offering_price*(1 - number*0.01)))
-
 
                         // Create a price for the product
                         const price = await stripe.prices.create({
-                            unit_amount: Math.round(data[0]?.decrypted_offering_price*100*(1 - number*0.01)),
+                            unit_amount: Math.round(row.offering_price*10*(1 - number*0.01)),
                             currency: 'aed', // or any other currency you use
                             product: product.id,
                         });
@@ -92,9 +84,15 @@ export async function POST() {
                         });
 
                         const wa_message_en = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
-                        const encodedMessage = encodeURIComponent(wa_message_en);
-						const waNo = '971' + row.whatsapp_no
+						const wa_message_ar = `أهلا ${row.customer_name} 👋! مضى شهر على شراءك لمنتجنا (${row.offering_name}). ولأنني أقدر اختيارك لمنتجاتنا 🤝، أقدم لك خصم ${row.discount} على طلبك السابق. إذا كنت مهتماً في العرض، فهو متاح لمدة 24 ساعة ⏰ .`;
+                        const encodedMessage = row.Arabic ? encodeURIComponent(wa_message_ar) : encodeURIComponent(wa_message_en);
+
+						const waNo = row.whatsapp_no.replace(/[\s-]/g, '');
+						
+						console.log(`WhatsApp number: ${waNo}`);
                         const waMessageURL = `https://wa.me/${waNo}?text=${encodedMessage}`;
+
+						console.log(waMessageURL)
 
 						let shortenedUrl;
 						const bitlyToken = process.env.BITLY_TOKEN;
@@ -127,7 +125,7 @@ export async function POST() {
                             template: {
                                 name: "business_reminder", // Adjust template name as needed
                                 language: {
-                                    code: "en"
+                                    code: "ar"
                                 },
                                 components: [
                                   {
@@ -150,7 +148,7 @@ export async function POST() {
                                     },
                                     {
                                       type: "text",
-                                      text: dis
+                                      text: discount
                                     },
                                     {
                                       type: "text",

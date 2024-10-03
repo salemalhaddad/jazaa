@@ -7,24 +7,28 @@ import {
 	useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MdArrowDownward, MdPersonAdd, MdCloudUpload } from "react-icons/md";
 import { IoMdLogIn } from "react-icons/io";
+import dynamic from 'next/dynamic'
+
+import ComponentWithWindowAccess from '../../components/ComponentWithWindowAccess';
 
 const SignIn = () => {
 	const supabaseClient = useSupabaseClient();
 	const { session } = useSessionContext();
+	const [windowWidth, setWindowWidth] = useState(0);
+	const [isMounted, setIsMounted] = useState(false);
 
 	const user = session?.user
 
 	const router = useRouter();
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			console.log("Accessing window");
-		const someValue = window.localStorage.getItem('key');
-		}
-	}, []); // Ensure this runs only on the client side
+		// This code only runs on the client side
+		setWindowWidth(window.innerWidth)
+		setIsMounted(true)
+	  }, [])
 
 	// useEffect(() => {
 	// 	if (user) {
@@ -44,6 +48,10 @@ const SignIn = () => {
 	// 	}
 	// }, [session, router, supabaseClient]);
 
+	if (!isMounted) {
+		return null // or a loading indicator
+	}
+
 	return (
 		<div className="md:grid md:grid-cols-2 flex flex-col items-center min-h-screen">
 			<div className="flex items-center justify-center">
@@ -56,7 +64,7 @@ const SignIn = () => {
 							providers={["google", "facebook"]}
 							magicLink={true}
 							queryParams={{
-								hd: `${window.location.origin}/onboarding/choose-data-option`,
+								hd: `${window.location.origin}/onboarding/upload-csv-data`,
 							  }}
 
 							appearance={{
