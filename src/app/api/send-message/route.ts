@@ -85,10 +85,47 @@ export async function POST() {
 
                         const wa_message_en = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
 						const wa_message_ar = `أهلا ${row.customer_name} 👋! مضى شهر على شراءك لمنتجنا (${row.offering_name}). ولأنني أقدر اختيارك لمنتجاتنا 🤝، أقدم لك خصم ${row.discount} على طلبك السابق. إذا كنت مهتماً في العرض، فهو متاح لمدة 24 ساعة ⏰ .`;
+
+						const wa_message_ar_1 = `مرحباً ${row.customer_name} 👋! لقد مر شهر منذ شرائك (${row.offering_name}). تقديراً لثقتك بنا 🤝، نقدم لك خصم ${row.discount} على طلبك السابق. العرض متاح لمدة 24 ساعة فقط ⏰.`;
+
+						const wa_message_ar_2 = `أهلاً ${row.customer_name} 👋! مضى شهر على اختيارك لمنتجنا (${row.offering_name}). واحتفاءً بثقتك، يسرني أن أقدم لك خصم ${row.discount} على طلبك. العرض ساري لمدة 24 ساعة ⏰.`;
+
+						const wa_message_ar_3 = `مرحباً ${row.customer_name} 👋! شرفتنا باختيارك لمنتجنا (${row.offering_name}) منذ شهر. لنشكرك، نقدم لك خصم ${row.discount}. العرض ساري لمدة 24 ساعة فقط ⏰.`;
+
+						const wa_message_ar_4 = `أهلاً ${row.customer_name} 👋! مضى شهر على شرائك لمنتجنا (${row.offering_name}). شكراً لك على اختيارك لنا 🤝، استمتع بخصم ${row.discount} على طلبك الأخير. العرض صالح لـ 24 ساعة فقط ⏰.`;
+
+						const wa_message_ar_5 = `مرحباً ${row.customer_name} 👋! شكرًا لاختيارك لمنتجنا (${row.offering_name}) قبل شهر. نقدر ولاءك ونقدم لك خصم ${row.discount} على طلبك السابق. العرض متاح لمدة 24 ساعة ⏰.`;
+
+						const wa_message_ar_6 = `أهلاً وسهلاً ${row.customer_name} 👋! مرت 30 يوماً على شرائك لمنتجنا (${row.offering_name}). تقديراً لك، نقدم لك خصم ${row.discount} على طلبك. يسري العرض لمدة 24 ساعة فقط ⏰.`;
+
+						const wa_message_ar_7 = `مرحباً ${row.customer_name} 👋! شكرًا لثقتك في منتجنا (${row.offering_name}). لنحتفل بمرور شهر على شرائك، نقدم لك خصم خاص بقيمة ${row.discount}. العرض متاح لـ 24 ساعة ⏰.`;
+
+						const wa_message_ar_8 = `أهلاً ${row.customer_name} 👋! مضى شهر على اختيارك لمنتجنا (${row.offering_name}). كعربون شكر، نمنحك خصم ${row.discount} على طلبك السابق. العرض ساري لمدة 24 ساعة فقط ⏰.`;
+
+						const wa_message_ar_9 = `مرحباً ${row.customer_name} 👋! لقد مضى شهر منذ شرائك (${row.offering_name}). نشكرك على ولائك ونقدم لك خصم ${row.discount} على طلبك السابق. العرض متاح لـ 24 ساعة ⏰.`;
+
+						const wa_message_ar_10 = `أهلاً ${row.customer_name} 👋! مضى شهر منذ اختيارك لمنتجنا (${row.offering_name}). احتفاءً بثقتك بنا، نقدم لك خصم ${row.discount}. العرض ساري لمدة 24 ساعة ⏰.`;
+
+                        const arabicMessages = [
+                            wa_message_ar,
+                            wa_message_ar_1,
+                            wa_message_ar_2,
+                            wa_message_ar_3,
+                            wa_message_ar_4,
+                            wa_message_ar_5,
+                            wa_message_ar_6,
+                            wa_message_ar_7,
+                            wa_message_ar_8,
+                            wa_message_ar_9,
+                            wa_message_ar_10
+                        ];
+                        const randomIndex = Math.floor(Math.random() * arabicMessages.length);
+						
+                        const wa_message_ar_random = arabicMessages[randomIndex];
                         const encodedMessage = row.Arabic ? encodeURIComponent(wa_message_ar) : encodeURIComponent(wa_message_en);
 
 						const waNo = row.whatsapp_no.replace(/[\s-]/g, '');
-						
+
 						console.log(`WhatsApp number: ${waNo}`);
                         const waMessageURL = `https://wa.me/${waNo}?text=${encodedMessage}`;
 
