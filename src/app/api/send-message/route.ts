@@ -83,10 +83,42 @@ export async function POST() {
                           ],
                         });
 
+
+
+                        const chat_response = await fetch("https://api.openai.com/v1/chat/completions", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${process.env.YOUR_OPENAI_API_KEY}`,
+                            },
+                            body: JSON.stringify({
+                                model: "gpt-3.5-turbo",
+                                messages: [
+                                    {role: "system", content: "You are a helpful assistant."},
+                                    {role: "user", content: `Is this Arabic name a male or female name? ${row.customer_name}. Reply only with 'male' or 'female'.`},
+                                ],
+                                max_tokens: 10,
+                                stop: ["\n"],
+                                temperature: 0,
+                            }),
+                        });
+
+                        const data = await chat_response.json();
+						let isMale = false;
+						if (data.choices[0].message.content) {
+							isMale = data.choices[0].message.content === 'male';
+							console.log(data.choices[0].message.content);
+						} else {
+							console.error('No choices found in the response. CANNOT continue. Check code.');
+						}
+
                         const wa_message_en = `Hi ${row.customer_name}! 🎉 We're excited to offer you an exclusive ${row.discount} discount on ${row.offering_name}. This special offer is only valid for the next 24 hours, so don't miss out! Click here to pay: ${paymentLink.url} and enjoy your discount today!`;
+
 						const wa_message_ar = `أهلا ${row.customer_name} 👋! مضى شهر على شراءك لمنتجنا (${row.offering_name}). ولأنني أقدر اختيارك لمنتجاتنا 🤝، أقدم لك خصم ${row.discount} على طلبك السابق. إذا كنت مهتماً في العرض، فهو متاح لمدة 24 ساعة ⏰ .`;
 
-						const wa_message_ar_1 = `مرحباً ${row.customer_name} 👋! لقد مر شهر منذ شرائك (${row.offering_name}). تقديراً لثقتك بنا 🤝، نقدم لك خصم ${row.discount} على طلبك السابق. العرض متاح لمدة 24 ساعة فقط ⏰.`;
+						const wa_message_sh_male = `السلام عليكم اخ ${row.customer_name}، كيف حالك، قلت بتطمن عليك كيف معاك ${row.offering_name}، عاجبك؟ ان شاء الله كان عند حسن ظنك. اذا عاجبك و بدك تاخذ حبة جديدة، بقدم لك خصم ${row.discount} مخصوص الك`;
+
+						const wa_message_sh_female = `السلام عليكم اختي ${row.customer_name}، كيف حالِك، قلت بتطمن عليك كيف معاك ${row.offering_name}، عاجبك؟ ان شاء الله كان عند حسن ظنكم. اذا عاجبك و بَدك تاخذي حبة جديدة، بقدم لِك خصم ${row.discount} مخصوص الك`;
 
 						const wa_message_ar_2 = `أهلاً ${row.customer_name} 👋! مضى شهر على اختيارك لمنتجنا (${row.offering_name}). واحتفاءً بثقتك، يسرني أن أقدم لك خصم ${row.discount} على طلبك. العرض ساري لمدة 24 ساعة ⏰.`;
 
@@ -108,7 +140,6 @@ export async function POST() {
 
                         const arabicMessages = [
                             wa_message_ar,
-                            wa_message_ar_1,
                             wa_message_ar_2,
                             wa_message_ar_3,
                             wa_message_ar_4,
@@ -120,9 +151,8 @@ export async function POST() {
                             wa_message_ar_10
                         ];
                         const randomIndex = Math.floor(Math.random() * arabicMessages.length);
-						
-                        const wa_message_ar_random = arabicMessages[randomIndex];
-                        const encodedMessage = row.Arabic ? encodeURIComponent(wa_message_ar) : encodeURIComponent(wa_message_en);
+
+                        let encodedMessage = row.Arabic ? (isMale ? encodeURIComponent(wa_message_sh_male) : encodeURIComponent(wa_message_sh_female)) : encodeURIComponent(wa_message_en);
 
 						const waNo = row.whatsapp_no.replace(/[\s-]/g, '');
 
@@ -138,7 +168,7 @@ export async function POST() {
 							return;
 						}
 						try {
-							const response = await fetch('https://api-ssl.bitly.com/v4/shorten', {
+							const bitlyResponse = await fetch('https://api-ssl.bitly.com/v4/shorten', {
 								method: 'POST',
 								headers: {
 									'Authorization': `Bearer ${bitlyToken}`,
@@ -146,7 +176,7 @@ export async function POST() {
 								},
 								body: JSON.stringify({ "long_url": waMessageURL, "domain": "bit.ly" })
 							});
-							const data = await response.json();
+							const data = await bitlyResponse.json();
 							shortenedUrl = data.link;
 							console.log(`Shortened URL: ${shortenedUrl}`);
 						} catch (error) {
@@ -155,7 +185,7 @@ export async function POST() {
 
 						const dis = row.discount + '%'
 
-                        const response = await axios.post(`https://graph.facebook.com/v19.0/${process.env.PHONE_ID}/messages`, {
+                        const FB_response = await axios.post(`https://graph.facebook.com/v19.0/${process.env.PHONE_ID}/messages`, {
                             messaging_product: "whatsapp",
                             to: row.business_no, // This should be dynamically set based on your requirements
                             type: "template",
@@ -204,8 +234,8 @@ export async function POST() {
                             }
                         });
 
-                      console.log('Message sent successfully:', response.data);
-                      if(response.data.messages[0].message_status == 'accepted') {
+                      console.log('Message sent successfully:', FB_response.data);
+                      if(FB_response.data.messages[0].message_status == 'accepted') {
                         messageSent = true
                       }
                   };
