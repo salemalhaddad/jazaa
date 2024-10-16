@@ -1,0 +1,141 @@
+"use client"
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Stripe from 'stripe';
+import { stripe } from '@/lib/stripe'
+import {
+	useSessionContext,
+	useSupabaseClient,
+} from "@supabase/auth-helpers-react";
+
+
+const CreateLinkPage = () => {
+  const [customerName, setCustomerName] = useState('');
+  const [productName, setProductName] = useState('');
+  const [amount, setAmount] = useState('');
+  const [discount, setDiscount] = useState(''); // Added discount state
+  const [paymentLinkUrl, setPaymentLinkUrl] = useState(''); // State to store payment link URL
+  const router = useRouter();
+
+  const supabaseClient = useSupabaseClient();
+  const { session } = useSessionContext();
+
+  const user = session?.user
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!isAuthenticated()) {
+      router.push('/sign-in', { query: { from: 'create-link' } });
+      return;
+    }
+
+    const discountPercentage = discount ? 1 - (Number(discount) / 100) : 1; // Calculate discount percentage
+    const discountedAmount = Math.round(Number(amount) * 10 * discountPercentage); // Apply discount
+
+	console.log(`Creating payment link for ${customerName} for product ${productName} with amount ${amount} and discount ${discount}%`);
+
+	try {
+		const response = await fetch('/api/create-link', {
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({
+			productName: productName,
+			amount: discountedAmount,
+			discount: discount, // Make sure discount is included
+			currency: 'aed', // or any other currency you use
+		  }),
+		});
+
+		if (!response.ok) {
+		  const errorMessage = await response.text(); // Get the error message from the response
+		  throw new Error(`Error: ${response.status} - ${errorMessage}`);
+		}
+
+		const data = await response.json();
+		setPaymentLinkUrl(data.url);
+	  } catch (error) {
+		console.error('Failed to create payment link:', error);
+	  }
+
+  };
+
+  const isAuthenticated = () => {
+    return supabaseClient.auth.getSession() !== null;
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-2xl font-semibold text-gray-900">Create Payment Link</h2>
+      <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        <div>
+          <label htmlFor="customerName" className="block text-sm font-medium text-gray-700">Customer Name:</label>
+          <input
+            type="text"
+            id="customerName"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label htmlFor="productName" className="block text-sm font-medium text-gray-700">Product Name:</label>
+          <input
+            type="text"
+            id="productName"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label htmlFor="amount" className="block text-sm font-medium text-gray-700">Amount:</label>
+          <input
+            type="text"
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+        <div>
+          <label htmlFor="discount" className="block text-sm font-medium text-gray-700">Discount %:</label>
+          <input
+            type="text"
+            id="discount"
+            value={discount}
+            onChange={(e) => setDiscount(e.target.value)}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+        <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Create Link
+        </button>
+        {paymentLinkUrl && (
+          <div className="mt-4 text-center">
+            <p className="text-indigo-600 hover:text-indigo-800">Your payment link is ready!</p>
+            <div className="flex justify-center space-x-4 mt-2">
+              <a href={paymentLinkUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800">Click here to view</a>
+              <button onClick={() => navigator.clipboard.writeText(paymentLinkUrl)} className="text-indigo-600 hover:text-indigo-800">Copy Link</button>
+              <button onClick={() => {
+                const shareData = {
+                  title: 'Payment Link',
+                  text: 'Here is the payment link:',
+                  url: paymentLinkUrl,
+                };
+                if (navigator.share) {
+                  navigator.share(shareData)
+                    .then(() => console.log('Link shared successfully'))
+                    .catch((error) => console.log('Error sharing', error));
+                }
+              }} className="text-indigo-600 hover:text-indigo-800">Share Link</button>
+            </div>
+          </div>
+        )}
+      </form>
+    </div>
+  );
+};
+
+export default CreateLinkPage;

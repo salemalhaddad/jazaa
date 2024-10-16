@@ -83,8 +83,6 @@ export async function POST() {
                           ],
                         });
 
-
-
                         const chat_response = await fetch("https://api.openai.com/v1/chat/completions", {
                             method: "POST",
                             headers: {
@@ -234,6 +232,10 @@ export async function POST() {
                             }
                         });
 
+						if (!row.business_no || !row.business || !row.customer_name || !row.frequency || !row.frequency_unit || !row.offering_name || !discount || !shortenedUrl) {
+                          console.error('Missing required row values');
+                        }
+
                       console.log('Message sent successfully:', FB_response.data);
                       if(FB_response.data.messages[0].message_status == 'accepted') {
                         messageSent = true
@@ -245,7 +247,7 @@ export async function POST() {
                     if(messageSent = true) {
                       await supabase
                       .from('customer-visits')
-                      .update({ message_sent: true })
+                      .update({ message_sent: true, message_sent_date: new Date(), sent_time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) })
                       .eq('customer_name', current_customer)
                       .select();
                       console.log('Message sent successfully!');
