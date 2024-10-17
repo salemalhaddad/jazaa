@@ -2,18 +2,17 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+	apiVersion: '2023-08-16', // Use the latest Stripe API version
+  });
+
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
   const body = await req.json();
   console.log(body)
 
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: "2022-11-15",
-  });
 
   try {
-
-	const body = await req.json();
 
     // const { productName, amount, discount, currency = 'aed' } = req.body;
 	console.log('Received data:', body);
@@ -60,6 +59,9 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
 
     let price;
+
+	const currency = body.currency || 'aed';
+	
     try {
       price = await stripe.prices.create({
         unit_amount: discountedAmount,

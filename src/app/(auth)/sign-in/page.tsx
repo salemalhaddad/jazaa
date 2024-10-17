@@ -62,9 +62,6 @@ const SignIn = () => {
 							supabaseClient={supabaseClient}
 							providers={["google", "facebook"]}
 							magicLink={true}
-							queryParams={{
-								hd: `${window.location.origin}/onboarding/upload-csv-data`,
-							  }}
 
 							appearance={{
 								theme: ThemeSupa,

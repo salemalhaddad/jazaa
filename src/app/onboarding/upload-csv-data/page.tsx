@@ -682,7 +682,7 @@ export default function Preferences() {
             .insert([
                 {
                     business_name: businessName,
-					          businessType: businessType,
+					businessType: businessType,
                     frequency: frequency,
                     frequency_unit: frequency_unit,
                     phone_no: phoneNumber

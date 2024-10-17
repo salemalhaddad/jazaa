@@ -1,27 +1,55 @@
 "use client";
-import React, { useState } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+	useSessionContext,
+	useSupabaseClient,
+} from "@supabase/auth-helpers-react";
 
 const CreatePaymentLinkPage = () => {
   const [productName, setProductName] = useState('');
   const [originalAmount, setOriginalAmount] = useState('');
   const [discountAmount, setDiscountAmount] = useState('');
+  const [paymentLinkUrl, setPaymentLinkUrl] = useState('');
+  const [user, setUser] = useState(null);
+//   const [session, setSession] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const supabaseClient = useSupabaseClient();
+  const { session } = useSessionContext();
+  const router = useRouter();
+
+
+
+
+  useEffect(() => {
+	// const checkUserSession = async () => {
+		// const { data: { session }, error } = await supabaseClient.auth.getSession();
+		if (session?.user !== undefined) {
+			// User is not signed in, redirect to sign-in page with current URL
+			const currentUrl = '/create-payment-link';
+			router.push(`/sign-in?redirect=${encodeURIComponent(currentUrl)}`);
+		} else {
+			setLoading(false);
+		}
+	// };
+
+	// checkUserSession();
+}, [router]);
+
 
   const createPaymentLink = async () => {
-
     if (!productName || !originalAmount || !discountAmount) {
-        console.error('Missing required parameters');
-        return;
+      console.error('Missing required parameters');
+      return;
     }
 
-	console.log('Sending request with data:', { productName, originalAmount, discountAmount });
+    console.log('Sending request with data:', { productName, originalAmount, discountAmount });
 
     const response = await fetch('api/create-stripe-link', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-		'Authorization': `Bearer ${process.env.YOUR_SECRET_KEY}`,
+        'Authorization': `Bearer ${process.env.YOUR_SECRET_KEY}`,
       },
       body: JSON.stringify({
         productName: productName,
@@ -34,11 +62,15 @@ const CreatePaymentLinkPage = () => {
     const data = await response.json();
 
     if (data.url) {
-      window.location.href = data.url;
+      setPaymentLinkUrl(data.url);
     } else {
       console.error('NO API RESPONSE:', data.error);
     }
   };
+
+  if (session?.user == undefined) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="max-w-md mx-auto my-10 bg-white p-8 border border-gray-200 rounded-lg shadow-lg">
@@ -84,6 +116,30 @@ const CreatePaymentLinkPage = () => {
           Create Payment Link
         </button>
       </form>
+      {paymentLinkUrl && (
+        <div className="mt-4 text-center">
+          <p className="text-blue-500 hover:text-green-700">Your payment link is ready!</p>
+          <div className="flex justify-center space-x-4 mt-2">
+            <a href={paymentLinkUrl} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700">Click here to view</a>
+            <button onClick={() => {
+              navigator.clipboard.writeText(paymentLinkUrl);
+              alert('Copied!');
+            }} className="text-green-500 hover:text-green-700">Copy Link</button>
+            <button onClick={() => {
+              const shareData = {
+                title: 'Payment Link',
+                text: 'Here is the payment link:',
+                url: paymentLinkUrl,
+              };
+              if (navigator.share) {
+                navigator.share(shareData)
+                  .then(() => console.log('Link shared successfully'))
+                  .catch((error) => console.log('Error sharing', error));
+              }
+            }} className="text-green-500 hover:text-green-700">Share Link</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
