@@ -63,6 +63,7 @@
 	},
 	"devDependencies": {
 		"@iconify/tailwind": "^1.1.1",
+		"@types/express": "^5.0.0",
 		"@types/node": "^20.12.12",
 		"@types/papaparse": "^5.3.14",
 		"supabase": "^1.169.5",

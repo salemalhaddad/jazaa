@@ -29,7 +29,6 @@ const CreatePaymentLinkPage = () => {
 			const currentUrl = '/create-payment-link';
 		} else {
 			setLoading(false);
-			const currentUrl = router.asPath;
 			router.push(`/sign-in?redirect=${encodeURIComponent('create-payment-link')}`);
 		}
 	// };
@@ -125,8 +124,12 @@ const CreatePaymentLinkPage = () => {
             <button onClick={() => {
               navigator.clipboard.writeText(paymentLinkUrl);
               // Removed alert and added inline text display for copied link confirmation
-              document.getElementById('linkCopiedConfirmation').style.display = 'block';
-            }} className="text-green-500 hover:text-green-700">Copy Link</button>
+			  if (paymentLinkUrl) {
+				const linkCopiedConfirmation = document.getElementById("linkCopiedConfirmation");
+				if (linkCopiedConfirmation) {
+					linkCopiedConfirmation.style.display = "block";
+				}
+			} }} className="text-green-500 hover:text-green-700">Copy Link</button>
             <button onClick={() => {
               const shareData = {
                 title: 'Payment Link',

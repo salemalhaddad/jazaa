@@ -26,10 +26,6 @@ export default function Home() {
 	}
   }, [router, session?.user]);
 
-  if (session?.user == undefined) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <main className="bg-[#0D121F] min-h-screen">
       <div className="px-[20px] md:px-[90px] text-white">
