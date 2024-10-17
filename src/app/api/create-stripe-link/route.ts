@@ -6,9 +6,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 	apiVersion: '2023-08-16', // Use the latest Stripe API version
   });
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(request, res) {
 
-  const body = await req.json();
+  const body = await request.json();
   console.log(body)
 
 
@@ -61,7 +61,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     let price;
 
 	const currency = body.currency || 'aed';
-	
+
     try {
       price = await stripe.prices.create({
         unit_amount: discountedAmount,

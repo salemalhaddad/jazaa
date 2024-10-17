@@ -27,14 +27,15 @@ const CreatePaymentLinkPage = () => {
 		if (session?.user !== undefined) {
 			// User is not signed in, redirect to sign-in page with current URL
 			const currentUrl = '/create-payment-link';
-			router.push(`/sign-in?redirect=${encodeURIComponent(currentUrl)}`);
 		} else {
 			setLoading(false);
+			const currentUrl = router.asPath;
+			router.push(`/sign-in?redirect=${encodeURIComponent('create-payment-link')}`);
 		}
 	// };
 
 	// checkUserSession();
-}, [router]);
+}, [router, session?.user]);
 
 
   const createPaymentLink = async () => {
@@ -123,7 +124,8 @@ const CreatePaymentLinkPage = () => {
             <a href={paymentLinkUrl} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700">Click here to view</a>
             <button onClick={() => {
               navigator.clipboard.writeText(paymentLinkUrl);
-              alert('Copied!');
+              // Removed alert and added inline text display for copied link confirmation
+              document.getElementById('linkCopiedConfirmation').style.display = 'block';
             }} className="text-green-500 hover:text-green-700">Copy Link</button>
             <button onClick={() => {
               const shareData = {
@@ -138,9 +140,10 @@ const CreatePaymentLinkPage = () => {
               }
             }} className="text-green-500 hover:text-green-700">Share Link</button>
           </div>
+          <p id="linkCopiedConfirmation" style={{display: 'none', color: 'green'}}>Link copied ✅</p>
         </div>
       )}
-    </div>
+	</div>
   );
 };
 
