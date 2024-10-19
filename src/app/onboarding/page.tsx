@@ -6,10 +6,6 @@ import { MdArrowDownward } from "react-icons/md";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import Stripe from 'stripe';
 
-const stripe = new Stripe('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', {
-    apiVersion: '2023-08-16', // Use the latest Stripe API version
-  });
-
 const Onboarding = () => {
     const supabaseClient = useSupabaseClient();
     const router = useRouter();
@@ -23,10 +19,61 @@ const Onboarding = () => {
     const [frequency, setRewardFrequency] = useState("");
     const [frequency_unit, setRewardFrequencyUnit] = useState("");
     const [terms, setTerms] = useState(false);
-	
+
     useEffect(() => {
         console.log("Component mounted");
     }, []);
+
+	useEffect(() => {
+		// const checkUserSession = async () => {
+			// const { data: { session }, error } = await supabaseClient.auth.getSession();
+			if (session?.user !== undefined) {
+				// User is not signed in, redirect to sign-in page with current URL
+				const currentUrl = '/create-payment-link';
+			} else {
+				setLoading(false);
+				router.push(`/sign-in?redirect=${encodeURIComponent('create-payment-link')}`);
+			}
+		// };
+
+		// checkUserSession();
+	}, [router, session?.user]);
+
+
+	  const createPaymentLink = async () => {
+		if (!productName || !originalAmount || !discountAmount) {
+		  console.error('Missing required parameters');
+		  return;
+		}
+
+		console.log('Sending request with data:', { productName, originalAmount, discountAmount });
+
+		const response = await fetch('api/create-stripe-link', {
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${process.env.YOUR_SECRET_KEY}`,
+		  },
+		  body: JSON.stringify({
+			productName: productName,
+			amount: parseFloat(originalAmount),
+			discount: parseFloat(discountAmount),
+			currency: 'aed',
+		  }),
+		});
+
+		const data = await response.json();
+
+		if (data.url) {
+		  setPaymentLinkUrl(data.url);
+		} else {
+		  console.error('NO API RESPONSE:', data.error);
+		}
+	  };
+
+	  if (session?.user == undefined) {
+		return <div>Loading...</div>;
+	  }
 
 	const handleUserNameChange = (e: { target: { value: SetStateAction<string>; }; }) => {
         setUserName(e.target.value);
@@ -78,10 +125,6 @@ const Onboarding = () => {
                     frequency_unit: frequency_unit
                 }
             ]);
-
-
-
-
 
 
         if (error) {
