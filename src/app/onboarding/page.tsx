@@ -19,6 +19,7 @@ const Onboarding = () => {
     const [frequency, setRewardFrequency] = useState("");
     const [frequency_unit, setRewardFrequencyUnit] = useState("");
     const [terms, setTerms] = useState(false);
+	const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         console.log("Component mounted");
@@ -40,36 +41,6 @@ const Onboarding = () => {
 	}, [router, session?.user]);
 
 
-	  const createPaymentLink = async () => {
-		if (!productName || !originalAmount || !discountAmount) {
-		  console.error('Missing required parameters');
-		  return;
-		}
-
-		console.log('Sending request with data:', { productName, originalAmount, discountAmount });
-
-		const response = await fetch('api/create-stripe-link', {
-		  method: 'POST',
-		  headers: {
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${process.env.YOUR_SECRET_KEY}`,
-		  },
-		  body: JSON.stringify({
-			productName: productName,
-			amount: parseFloat(originalAmount),
-			discount: parseFloat(discountAmount),
-			currency: 'aed',
-		  }),
-		});
-
-		const data = await response.json();
-
-		if (data.url) {
-		  setPaymentLinkUrl(data.url);
-		} else {
-		  console.error('NO API RESPONSE:', data.error);
-		}
-	  };
 
 	  if (session?.user == undefined) {
 		return <div>Loading...</div>;
